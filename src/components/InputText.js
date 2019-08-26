@@ -8,14 +8,27 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Input } from 'react-native-elements';
 
-export default class InputText extends Component<{}> {
+export default class InputText extends Component{
+  
+    /**
+     *
+     * Possible values for `textContentType` are:
+     *
+     *  - `'none'`, `'URL'`, `'addressCity'` , `'addressCityAndState'`, `'addressState'`, `'countryName'`, 
+     *    `'creditCardNumber'`, `'emailAddress'`, `'familyName'`, `'fullStreetAddress'`, `'givenName'`, `'jobTitle'`, 
+     *    `'location'`, `'middleName'`, `'name'`, `'namePrefix'`, `'nameSuffix'`, `'nickname'`, `'organizationName'`, 
+     *    `'postalCode'`, `'streetAddressLine1'`, `'streetAddressLine2'`, `'sublocality'`, `'telephoneNumber'`, `'username'`, 
+     *    `'password'`, `'newPassword'`, `'oneTimeCode'`
+     *
+     */
+  
 
   constructor(props) {
     super(props)
     this.state = {
       ...props
     }
-    this.onChangeText = this.onChangeText.bind(this)
+
   }
 
   onChangeText = (text) => {
@@ -24,13 +37,15 @@ export default class InputText extends Component<{}> {
   }
 
   render() {
-    let { placeholder, value, icon } = this.state
+    let { placeholder, value, icon, textContentType, autoCapitalize, inputContainerStyle } = this.state
     return (
       <Input
         placeholder={placeholder}
-        errorMessage={'Preencha o campo'}
+        autoCapitalize={'words'}
+        textContentType={textContentType}
+        errorMessage={`Campo ${placeholder} obrigatório`}
         containerStyle={styles.containerStyle}
-        inputContainerStyle={styles.inputContainerStyle}
+        inputContainerStyle={[styles.inputContainerStyle, inputContainerStyle]}
         leftIconContainerStyle={styles.leftIconContainerStyle}
         errorStyle={styles.error}
         value={value}
@@ -53,26 +68,27 @@ export default class InputText extends Component<{}> {
 
 const styles = StyleSheet.create({
 
-  containerStyle: {
-    padding: 2,
-    width: '100%',
-    height: 85
-  },
+  containerStyle:{
+    margin: 0,
+    padding: 0
+  },  
+
   inputContainerStyle: {
-    flex: 1,
+    width: '100%',
+    height: 50,
     alignItems: 'center',
     borderColor: 'gray',
     borderRadius: 100,
     borderWidth: 2,
+    backgroundColor: 'transparent'
   },
   leftIconContainerStyle: {
-
     alignContent: "space-around"
   },
 
   error: {
     color: 'red',
-    textAlign: 'center'
+    textAlign: 'left'
   },
 
 });
