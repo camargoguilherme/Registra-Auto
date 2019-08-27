@@ -6,55 +6,30 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Input } from 'react-native-elements';
+import { Input, InputProps } from 'react-native-elements';
 
-export default class InputText extends Component{
+type Props = InputProps;
+
+export default class InputText extends Component<Props>{
   
-    /**
-     *
-     * Possible values for `textContentType` are:
-     *
-     *  - `'none'`, `'URL'`, `'addressCity'` , `'addressCityAndState'`, `'addressState'`, `'countryName'`, 
-     *    `'creditCardNumber'`, `'emailAddress'`, `'familyName'`, `'fullStreetAddress'`, `'givenName'`, `'jobTitle'`, 
-     *    `'location'`, `'middleName'`, `'name'`, `'namePrefix'`, `'nameSuffix'`, `'nickname'`, `'organizationName'`, 
-     *    `'postalCode'`, `'streetAddressLine1'`, `'streetAddressLine2'`, `'sublocality'`, `'telephoneNumber'`, `'username'`, 
-     *    `'password'`, `'newPassword'`, `'oneTimeCode'`
-     *
-     */
-  
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      ...props
-    }
-
-  }
-
   onChangeText = (text) => {
     this.props.onChangeText(text)
     this.setState({value: text})
   }
 
   render() {
-    let { placeholder, value, icon, textContentType, autoCapitalize, inputContainerStyle } = this.state
+    let {  inputContainerStyle, containerStyle, icon, ...otherProps } = this.props
     return (
       <Input
-        placeholder={placeholder}
-        autoCapitalize={'words'}
-        textContentType={textContentType}
-        errorMessage={`Campo ${placeholder} obrigatório`}
-        containerStyle={styles.containerStyle}
+        containerStyle={[styles.containerStyle, containerStyle]}
         inputContainerStyle={[styles.inputContainerStyle, inputContainerStyle]}
+        style
         leftIconContainerStyle={styles.leftIconContainerStyle}
         errorStyle={styles.error}
-        value={value}
-        onChangeText={this.onChangeText}
+        {...otherProps}
         leftIcon={
           <Icon
-            name={icon}
-            size={24}
-            color='gray'
+            {...icon}
           />
         }
       />
@@ -67,20 +42,13 @@ export default class InputText extends Component{
 // let height = (WIDTH<HEIGHT?WIDTH:HEIGHT) * 0.1
 
 const styles = StyleSheet.create({
-
-  containerStyle:{
-    margin: 0,
-    padding: 0
-  },  
-
   inputContainerStyle: {
     width: '100%',
     height: 50,
     alignItems: 'center',
     borderColor: 'gray',
     borderRadius: 100,
-    borderWidth: 2,
-    backgroundColor: 'transparent'
+    borderWidth: StyleSheet.hairlineWidth*5,
   },
   leftIconContainerStyle: {
     alignContent: "space-around"

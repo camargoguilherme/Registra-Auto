@@ -2,83 +2,100 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
+  KeyboardAvoidingView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Input } from 'react-native-elements';
+
 import InputText from '../components/InputText';
 import Button from '../components/MyButton';
-// import { Container } from './styles';
+import colors from '../config/colors';
+import strings from '../config/strings';
 
 export default class Login extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      
+      username: '',
+      password: '',
+      errorMessageUsername: '',
+      errorMessagePassword: ''
     }
   }
 
-  onPress = () => {
+  handleLoginPress = () => {
+    let { username, password } = this.state;
     
+    if(!username || !password){
+      this.setState({ 
+        errorMessageUsername: !username?'Campo username é obrigatório':'',
+        errorMessagePassword: !password?'Campo password é obrigatório':''
+      })
+    }
   }
+
+  handleSignUpPress = () => {
+
+  }
+
+  handleUsernameChange = (username: string) => {
+    this.setState({ username })
+  }
+
+  handlePasswordChange = (password: string) => {
+    this.setState({ password })
+  }
+
+
 
   render() {
     let { loading } = this.state;
 
     // alert(JSON.stringify(this.state))
     return (
-      <View style={styles.container}>
-        
-        <View style={styles.containerStyle}>
-          <InputText 
-            placeholder='USERNAME'
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior='padding'>
+        <View style={styles.form}>
+          <InputText
+            placeholder={strings.EMAIL_PLACEHOLDER}
             textContentType='username'
-            icon='user'
-            onChangeText={ () => {} }
-            value={''} />  
-        
-          <InputText 
-            placeholder='PASSWORD'
+            errorMessage={this.state.errorMessageUsername}
+            icon={{ name: 'user', size: 24, color: 'gray' }}
+            onChangeText={this.handleUsernameChange}
+            value={this.state.username} />
+
+          <InputText
+            placeholder={strings.PASSWORD_PLACEHOLDER}
             textContentType='password'
-            icon='lock'
-            onChangeText={ () => {} }
-            value={''}/>
-          <Button 
-            title="Login"
-            onPress={this.onPress}
+            secureTextEntry={true}
+            errorMessage={this.state.errorMessagePassword}
+            icon={{ name: 'lock', size: 24, color: 'gray' }}
+            onChangeText={this.handlePasswordChange}
+            value={this.state.password} />
+
+          <Button
+            title={strings.LOGIN}
+            onPress={this.handleLoginPress}
             loading={loading}
           />
         </View>
-        
-      </View>
+
+      </KeyboardAvoidingView>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     width: '100%',
     height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  containerStyle:{
-    width: '80%',
-    height: '80%',
-    padding: 2,
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: 'transparent'
-  },
-  inputContainerStyle: {
-    flex: 1,
+    backgroundColor: colors.DODGE_BLUE,
     alignItems: 'center',
-    borderColor: 'gray',
-    borderRadius: 100,
-    borderWidth: 2,   
   },
-  leftIconContainerStyle: {
-
-    alignContent: "space-around"
-  }
+  form: {
+    flex: 1,
+    width: '80%',
+    justifyContent: 'space-around'
+  },
 });
