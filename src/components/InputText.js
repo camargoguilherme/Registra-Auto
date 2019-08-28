@@ -23,7 +23,6 @@ export default class InputText extends Component<Props>{
       <Input
         containerStyle={[styles.containerStyle, containerStyle]}
         inputContainerStyle={[styles.inputContainerStyle, inputContainerStyle]}
-        style
         leftIconContainerStyle={styles.leftIconContainerStyle}
         errorStyle={styles.error}
         {...otherProps}
@@ -42,6 +41,11 @@ export default class InputText extends Component<Props>{
 // let height = (WIDTH<HEIGHT?WIDTH:HEIGHT) * 0.1
 
 const styles = StyleSheet.create({
+  containerStyle:{
+    width: '100%',
+    height: 75,
+  },
+
   inputContainerStyle: {
     width: '100%',
     height: 50,
@@ -49,6 +53,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 100,
     borderWidth: StyleSheet.hairlineWidth*5,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)'
   },
   leftIconContainerStyle: {
     alignContent: "space-around"

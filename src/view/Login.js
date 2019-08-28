@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
+  Image,
   KeyboardAvoidingView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -10,7 +11,7 @@ import InputText from '../components/InputText';
 import Button from '../components/MyButton';
 import colors from '../config/colors';
 import strings from '../config/strings';
-
+import logo from '../assets/images/logo.png'
 export default class Login extends Component {
 
   constructor(props) {
@@ -25,12 +26,14 @@ export default class Login extends Component {
 
   handleLoginPress = () => {
     let { username, password } = this.state;
-    
-    if(!username || !password){
-      this.setState({ 
-        errorMessageUsername: !username?'Campo username é obrigatório':'',
-        errorMessagePassword: !password?'Campo password é obrigatório':''
-      })
+    this.setState({
+      errorMessageUsername: !username ? 'Campo username é obrigatório' : '',
+      errorMessagePassword: !password ? 'Campo password é obrigatório' : ''
+    })
+    if (!username || !password) {
+
+    }else{
+      
     }
   }
 
@@ -53,9 +56,14 @@ export default class Login extends Component {
 
     // alert(JSON.stringify(this.state))
     return (
-      <KeyboardAvoidingView
+      <View
         style={styles.container}
         behavior='padding'>
+        <Image 
+          source={logo} 
+          style={styles.logo}
+          width={175}
+          height={175}/>
         <View style={styles.form}>
           <InputText
             placeholder={strings.EMAIL_PLACEHOLDER}
@@ -81,7 +89,7 @@ export default class Login extends Component {
           />
         </View>
 
-      </KeyboardAvoidingView>
+      </View>
     )
   }
 }
@@ -90,12 +98,20 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: colors.DODGE_BLUE,
+    backgroundColor: colors.PRIMARY,
     alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  logo: {
+    flex: 0.5,
+    resizeMode: 'contain',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   form: {
     flex: 1,
     width: '80%',
-    justifyContent: 'space-around'
+    alignSelf: 'center',
+    justifyContent: 'center'
   },
 });
