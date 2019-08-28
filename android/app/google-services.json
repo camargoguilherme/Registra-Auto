@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "9311623258",
+    "firebase_url": "https://registra-auto.firebaseio.com",
+    "project_id": "registra-auto",
+    "storage_bucket": "registra-auto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9311623258:android:0684ccf66da5d0e1",
+        "android_client_info": {
+          "package_name": "com.registra_auto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9311623258-s34dsi4ujfhfvq596g1i77g1ded006fg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIOG41hn5rPdzeo41hGvNsvvz0RKFS9OU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9311623258-s34dsi4ujfhfvq596g1i77g1ded006fg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
