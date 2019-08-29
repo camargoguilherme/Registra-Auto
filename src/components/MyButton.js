@@ -6,36 +6,23 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Button } from 'react-native-elements';
+import { Button, ButtonProps } from 'react-native-elements';
 
-export default class MyButton extends Component<{}> {
+type Props = ButtonProps;
+
+export default class MyButton extends Component<Props> {
 
   constructor(props) {
     super(props)
-    this.state = {
-      ...props,
-      loading: false
-    }
-  }
-
-  onPress = () => {
-    this.setState({ loading: true })
-    setTimeout( () =>{ this.setState({ loading: false }) }, 5000 )
-    this.props.onPress()
   }
 
   render() {
-    let { title, loading, buttonStyle } = this.state
+    let { buttonStyle, ...otherProps } = this.props
     
     return (
       <Button
-        title={title}
         buttonStyle={[styles.buttonStyle, buttonStyle]}
-        onPress={this.onPress}
-        loading={loading}
-        disabled={loading}
-        disabledStyle={styles.loadingStyle}
-        loadingStyle={styles.loadingStyle}
+        {...otherProps}
 
       />
     )
@@ -52,11 +39,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     alignItems: 'center',
-    borderRadius: 100,
+    borderRadius: 100,    
   },
-
-  loadingStyle: {
-    flex: 1,
-    backgroundColor: 'red',
-  }
 });
