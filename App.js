@@ -1,38 +1,56 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, { Fragment } from 'react';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
-  Text,
-  StatusBar,
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView
 } from 'react-native';
 
-import Login from './src/view/Login';
+import colors from './src/config/colors';
 
-const App = () => {
-  return (
-    <View styles={styles.container}>
-      <StatusBar barStyle="default" />
+import AppSwitchNavigator from './routes';
 
-      <Login />
-    </View>
-  );
-};
+import {  createAppContainer } from 'react-navigation';
+
+export default class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      signed: false,
+      signLoaded: false,
+    }
+  }
+
+  async componentDidMount() {
+
+    this.setState({ signLoaded: true })
+
+  }
+
+  render() {
+    const { signLoaded, signed } = this.state;
+
+    if (!signLoaded) {
+      return null;
+    }
+
+    const Layout = createAppContainer(AppSwitchNavigator(signed));
+    return (
+      <View style={{ flex: 1 }}>
+        {/* <OfflineNotice />  */}
+        <Layout />
+      </View>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'red'
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.PRIMARY,
+    alignItems: 'center',
+    justifyContent: 'space-around'
   }
 });
-
-export default App;

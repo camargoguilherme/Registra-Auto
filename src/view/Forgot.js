@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import firebase from 'react-native-firebase';
 
 import InputText from '../components/InputText';
 import Button from '../components/MyButton';
@@ -14,7 +13,7 @@ import colors from '../config/colors';
 import strings from '../config/strings';
 import logo from '../assets/images/logo.png';
 
-export default class Login extends Component {
+export default class Forgot extends Component {
 
   constructor(props) {
     super(props)
@@ -27,34 +26,6 @@ export default class Login extends Component {
     }
   }
 
-  errorLogin({code, message}) {
-    switch (code) {
-      case 'auth/wrong-password':
-        this.setState({ errorMessagePassword: message })
-        break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-
-
-    }
-  }
-
   handleLoginPress = () => {
     let { email, password } = this.state;
     this.setState({
@@ -63,20 +34,9 @@ export default class Login extends Component {
     })
     if (!email || !password) {
 
-    } else {
-      this.setState({ loading: true })
-      firebase.auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(user => {
-          console.log(user)
-        })
-        .catch(error => {
-          console.log(error.code)
-          this.errorLogin(error)
-          this.setState({ password: '', loading: false })
-        })
+    }else{
+      
     }
-
   }
 
   handleSignUpPress = () => {
@@ -84,11 +44,11 @@ export default class Login extends Component {
   }
 
   handleEmailChange = (email: string) => {
-    this.setState({ email: email.trim() })
+    this.setState({ email })
   }
 
   handlePasswordChange = (password: string) => {
-    this.setState({ password: password.trim() })
+    this.setState({ password })
   }
 
 
@@ -101,11 +61,11 @@ export default class Login extends Component {
       <KeyboardAvoidingView
         style={styles.container}
         behavior='height'>
-        <Image
-          source={logo}
+        <Image 
+          source={logo} 
           style={styles.logo}
           width={175}
-          height={175} />
+          height={175}/>
         <View style={styles.form}>
           <InputText
             placeholder={strings.EMAIL_PLACEHOLDER}
