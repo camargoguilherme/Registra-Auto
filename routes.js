@@ -2,28 +2,28 @@ import {
   createStackNavigator,
   createDrawerNavigator,
   createMaterialTopTabNavigator,
-  createSwitchNavigator,
-  createAppContainer
+  createSwitchNavigator
 } from 'react-navigation';
 
 import Login  from './src/view/Login'
 import SignUp  from './src/view/SignUp'
+import Forget  from './src/view/Forget'
 
 
 const AppSwitchNavigator = (signedIn) =>{
   return createSwitchNavigator({
-  'Login': {
+  'LogIn': {
     screen: Login
   },
   'SignUp': {
     screen: SignUp
   },
-  'Forgot': {
-    screen: Login
+  'Forget': {
+    screen: Forget
   }
 },
   {
-    initialRouteName: signedIn ? 'Home' : 'Login',
+    initialRouteName: signedIn ? 'Home' : 'LogIn',
   });
 } 
 

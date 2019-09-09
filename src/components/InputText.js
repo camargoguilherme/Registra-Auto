@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   containerStyle:{
     width: '100%',
     height: 75,
+    paddingHorizontal: 0,
   },
 
   inputContainerStyle: {
@@ -57,10 +58,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.7)'
   },
   leftIconContainerStyle: {
+    marginRight: 10,
     alignContent: "space-around"
   },
 
   error: {
+    fontSize: 15,
+    fontWeight: '400',
     color: 'red',
     textAlign: 'left'
   },
