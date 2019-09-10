@@ -31,7 +31,10 @@ export default class SignUp extends Component {
       errorMessagePassword: '',
       errorMessageConfirmPassword: '',
       errorMessageEmail: '',
-      loading: false
+      loading: false,
+      rightIcon: 'eye-slash',
+      isPassword: true
+
     }
   }
 
@@ -91,9 +94,15 @@ export default class SignUp extends Component {
   }
 
   handleChange = (field: string, value: string) => {
-    this.setState({ [field] : value.trim() })
+    this.setState({ [field]: value.trim() })
   }
 
+  handleIconChange = () => {
+    this.setState(prevState => ({
+      rightIcon: prevState.rightIcon === 'eye' ? 'eye-slash' : 'eye',
+      isPassword: !prevState.isPassword
+    }))
+  }
 
 
   render() {
@@ -106,45 +115,54 @@ export default class SignUp extends Component {
         behavior='height'>
 
         <View style={styles.form}>
-        <Image
-          source={logo}
-          style={styles.logo}
-          width={120}
-          height={120} />
+          <Image
+            source={logo}
+            style={styles.logo}
+            width={120}
+            height={120} />
           <View style={styles.inputContainer}>
             <InputText
-            placeholder={strings.USERNAME_PLACEHOLDER}
-            textContentType='username'
-            errorMessage={this.state.errorMessageUsername}
-            icon={{ name: 'user', size: 24, color: 'gray' }}
-            onChangeText={(value) => this.handleChange('username', value.trim())}
-            value={this.state.username} />
+              placeholder={strings.USERNAME_PLACEHOLDER}
+              textContentType='username'
+              errorMessage={this.state.errorMessageUsername}
+              icon={{ name: 'user', size: 24, color: 'gray' }}
+              onChangeText={(value) => this.handleChange('username', value.trim())}
+              value={this.state.username} />
+            <InputText
+              placeholder={strings.EMAIL_PLACEHOLDER}
+              textContentType='emailAddress'
+              errorMessage={this.state.errorMessageEmail}
+              icon={{ name: 'envelope', size: 24, color: 'gray' }}
+              onChangeText={(value) => this.handleChange('email', value.trim())}
+              value={this.state.email} />
 
-          <InputText
-            placeholder={strings.PASSWORD_PLACEHOLDER}
-            textContentType='password'
-            secureTextEntry={true}
-            errorMessage={this.state.errorMessagePassword}
-            icon={{ name: 'lock', size: 24, color: 'gray' }}
-            onChangeText={(value) => this.handleChange('password', value.trim())}
-            value={this.state.password} />
+            <InputText
+              placeholder={strings.PASSWORD_PLACEHOLDER}
+              textContentType='password'
+              secureTextEntry={this.state.isPassword}
+              errorMessage={this.state.errorMessagePassword}
+              icon={{ name: 'lock', size: 24, color: 'gray' }}
+              onChangeText={(value) => this.handleChange('password', value.trim())}
+              value={this.state.password}
+              rightIcon={
+                <TouchableOpacity onPress={this.handleIconChange}>
+                  <Icon name={this.state.rightIcon} size={24} color='gray'></Icon>
+                </TouchableOpacity>
+              } />
+            <InputText
+              placeholder={strings.CONFIRMPASSWORD_PLACEHOLDER}
+              textContentType='password'
+              secureTextEntry={this.state.isPassword}
+              errorMessage={this.state.errorMessageConfirmPassword}
+              icon={{ name: 'lock', size: 24, color: 'gray' }}
+              onChangeText={(value) => this.handleChange('confirmPassword', value.trim())}
+              value={this.state.confirmPassword}
+              rightIcon={
+                <TouchableOpacity onPress={this.handleIconChange}>
+                  <Icon name={this.state.rightIcon} size={24} color='gray'></Icon>
+                </TouchableOpacity>
+              } />
 
-          <InputText
-            placeholder={strings.CONFIRMPASSWORD_PLACEHOLDER}
-            textContentType='password'
-            secureTextEntry={true}
-            errorMessage={this.state.errorMessageConfirmPassword}
-            icon={{ name: 'lock', size: 24, color: 'gray' }}
-            onChangeText={(value) => this.handleChange('confirmPassword', value.trim())}
-            value={this.state.confirmPassword} />
-
-          <InputText
-            placeholder={strings.EMAIL_PLACEHOLDER}
-            textContentType='emailAddress'
-            errorMessage={this.state.errorMessageEmail}
-            icon={{ name: 'envelope', size: 24, color: 'gray' }}
-            onChangeText={(value) => this.handleChange('email', value.trim())}
-            value={this.state.email} />
           </View>
 
           <Button
@@ -154,9 +172,9 @@ export default class SignUp extends Component {
             containerStyle={styles.buttonSignUp} />
         </View>
         <View style={styles.signupContainer}>
-          <Text style={[styles.text, {marginHorizontal: 10}]}>Already have an account,</Text>
+          <Text style={[styles.text, { marginHorizontal: 10 }]}>Already have an account,</Text>
           <TouchableOpacity
-          onPress={() => {navigate("LogIn")}}>
+            onPress={() => { navigate("LogIn") }}>
             <Text style={styles.text_underline}>Log in</Text>
           </TouchableOpacity>
         </View>

@@ -27,7 +27,9 @@ export default class Login extends Component {
       password: '',
       errorMessageEmail: '',
       errorMessagePassword: '',
-      loading: false
+      loading: false,
+      rightIcon: 'eye-slash',
+      isPassword: true
     }
   }
 
@@ -61,6 +63,7 @@ export default class Login extends Component {
 
   handleLoginPress = () => {
     let { email, password } = this.state;
+    const { navigate } = this.props.navigation;
     this.setState({
       errorMessageEmail: !email ? 'Campo email é obrigatório' : '',
       errorMessagePassword: !password ? 'Campo password é obrigatório' : ''
@@ -68,16 +71,17 @@ export default class Login extends Component {
     if (!email || !password) {
 
     } else {
-      this.setState({ loading: true })
+      this.setState(prevState => ({loading: !prevState.loading }))
       firebase.auth()
         .signInWithEmailAndPassword(email, password)
         .then(user => {
           console.log(user)
+          navigate('Home');
         })
         .catch(error => {
           console.log(error.code)
           this.errorLogin(error)
-          this.setState({ password: '', loading: false })
+          this.setState(prevState => ({ password: '', loading: !prevState.loading }))
         })
     }
 
@@ -91,7 +95,12 @@ export default class Login extends Component {
     this.setState({ password: password.trim() })
   }
 
-
+  handleIconChange = () => {
+    this.setState( prevState =>({ 
+      rightIcon: prevState.rightIcon === 'eye' ? 'eye-slash' : 'eye',
+      isPassword: !prevState.isPassword 
+    }))
+  }
 
   render() {
     let { loading } = this.state;
@@ -120,11 +129,16 @@ export default class Login extends Component {
             <InputText
               placeholder={strings.PASSWORD_PLACEHOLDER}
               textContentType='password'
-              secureTextEntry={true}
+              secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessagePassword}
               icon={{ name: 'lock', size: 24, color: 'gray' }}
               onChangeText={this.handlePasswordChange}
-              value={this.state.password} />
+              value={this.state.password}
+              rightIcon={
+                <TouchableOpacity onPress={this.handleIconChange}>
+                  <Icon name={this.state.rightIcon} size={24} color='gray'></Icon>
+                </TouchableOpacity>
+              } />
           </View>
 
           <Button
@@ -133,8 +147,8 @@ export default class Login extends Component {
             loading={loading}
             containerStyle={styles.buttonLogin} />
           <TouchableOpacity style={styles.forget}
-            onPress={() => { navigate("Forget") }}>
-            <Text style={styles.text_underline}>Forget Password?</Text>
+            onPress={() => { navigate("Forgot") }}>
+            <Text style={styles.text_underline}>Forgot Password?</Text>
           </TouchableOpacity>
 
         </View>

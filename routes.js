@@ -7,8 +7,9 @@ import {
 
 import Login  from './src/view/Login'
 import SignUp  from './src/view/SignUp'
-import Forget  from './src/view/Forget'
+import Forgot  from './src/view/Forgot'
 
+const AppStackNavigator;
 
 const AppSwitchNavigator = (signedIn) =>{
   return createSwitchNavigator({
@@ -18,8 +19,8 @@ const AppSwitchNavigator = (signedIn) =>{
   'SignUp': {
     screen: SignUp
   },
-  'Forget': {
-    screen: Forget
+  'Forgot': {
+    screen: Forgot
   }
 },
   {

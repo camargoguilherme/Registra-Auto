@@ -24,10 +24,8 @@ export default class Login extends Component {
     super(props)
     this.state = {
       email: '',
-      password: '',
       errorMessageEmail: '',
-      errorMessagePassword: '',
-      loading: false
+      loading: false,
     }
   }
 
@@ -60,24 +58,26 @@ export default class Login extends Component {
   }
 
   handleLoginPress = () => {
-    let { email, password } = this.state;
+    let { email } = this.state;
+    const { navigate } = this.props.navigation;
     this.setState({
       errorMessageEmail: !email ? 'Campo email é obrigatório' : '',
-      errorMessagePassword: !password ? 'Campo password é obrigatório' : ''
     })
-    if (!email || !password) {
+    if (!email) {
 
     } else {
       this.setState({ loading: true })
+      navigate("LogIn")
       firebase.auth()
-        .signInWithEmailAndPassword(email, password)
+        .sendPasswordResetEmail(email)
         .then(user => {
-          console.log(user)
+          console.log(user);
+          navigate("LogIn")
         })
         .catch(error => {
           console.log(error.code)
           this.errorLogin(error)
-          this.setState({ password: '', loading: false })
+          this.setState({ email: '', loading: false })
         })
     }
 
@@ -91,11 +91,9 @@ export default class Login extends Component {
     this.setState({ password: password.trim() })
   }
 
-
-
   render() {
     let { loading } = this.state;
-    const { navigate } = this.props.navigation;
+    
     // alert(JSON.stringify(this.state))
     return (
       <KeyboardAvoidingView
@@ -117,33 +115,13 @@ export default class Login extends Component {
               onChangeText={this.handleEmailChange}
               value={this.state.email} />
 
-            <InputText
-              placeholder={strings.PASSWORD_PLACEHOLDER}
-              textContentType='password'
-              secureTextEntry={true}
-              errorMessage={this.state.errorMessagePassword}
-              icon={{ name: 'lock', size: 24, color: 'gray' }}
-              onChangeText={this.handlePasswordChange}
-              value={this.state.password} />
           </View>
 
           <Button
-            title={strings.LOGIN}
+            title={strings.SEND}
             onPress={this.handleLoginPress}
             loading={loading}
             containerStyle={styles.buttonLogin} />
-          <TouchableOpacity style={styles.forget}
-            onPress={() => { navigate("Forget") }}>
-            <Text style={styles.text_underline}>Forget Password?</Text>
-          </TouchableOpacity>
-
-        </View>
-        <View style={styles.signupContainer}>
-          <Text style={[styles.text, { marginHorizontal: 10 }]}>Don't have an account,</Text>
-          <TouchableOpacity
-            onPress={() => { navigate("SignUp") }}>
-            <Text style={styles.text_underline}>Sign Up</Text>
-          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     )

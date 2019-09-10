@@ -25,12 +25,12 @@ export default class InputText extends Component<Props>{
         inputContainerStyle={[styles.inputContainerStyle, inputContainerStyle]}
         leftIconContainerStyle={styles.leftIconContainerStyle}
         errorStyle={styles.error}
-        {...otherProps}
         leftIcon={
           <Icon
-            {...icon}
+          {...icon}
           />
         }
+        {...otherProps}
       />
     )
   }
