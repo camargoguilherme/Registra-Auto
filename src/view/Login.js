@@ -5,18 +5,18 @@ import {
   Image,
   Text,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
+  
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import firebase from 'react-native-firebase';
 
 import InputText from '../components/InputText';
 import Button from '../components/MyButton';
-import colors from '../config/colors';
 import strings from '../config/strings';
 import logo from '../assets/images/logo.png';
 
-import { Divider } from 'react-native-elements';
+import { styles } from '../config/styles';
 
 export default class Login extends Component {
 
@@ -64,26 +64,27 @@ export default class Login extends Component {
   handleLoginPress = () => {
     let { email, password } = this.state;
     const { navigate } = this.props.navigation;
-    this.setState({
-      errorMessageEmail: !email ? 'Campo email é obrigatório' : '',
-      errorMessagePassword: !password ? 'Campo password é obrigatório' : ''
-    })
-    if (!email || !password) {
+    // this.setState({
+    //   errorMessageEmail: !email ? 'Campo email é obrigatório' : '',
+    //   errorMessagePassword: !password ? 'Campo password é obrigatório' : ''
+    // })
+    // if (!email || !password) {
 
-    } else {
-      this.setState(prevState => ({loading: !prevState.loading }))
-      firebase.auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(user => {
-          console.log(user)
-          navigate('Home');
-        })
-        .catch(error => {
-          console.log(error.code)
-          this.errorLogin(error)
-          this.setState(prevState => ({ password: '', loading: !prevState.loading }))
-        })
-    }
+    // } else {
+    //   this.setState(prevState => ({loading: !prevState.loading }))
+    //   firebase.auth()
+    //     .signInWithEmailAndPassword(email, password)
+    //     .then(user => {
+    //       console.log(user)
+    //       navigate('Home');
+    //     })
+    //     .catch(error => {
+    //       console.log(error.code)
+    //       this.errorLogin(error)
+    //       this.setState(prevState => ({ password: '', loading: !prevState.loading }))
+    //     })
+    // }
+    navigate('Home');
 
   }
 
@@ -164,57 +165,3 @@ export default class Login extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.PRIMARY,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-  logo: {
-    marginBottom: 10,
-    resizeMode: 'contain',
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
-
-  form: {
-    margin: 20,
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)'
-  },
-
-  inputContainer: {
-    width: '100%',
-    marginVertical: 5,
-  },
-
-  text: {
-    fontSize: 15,
-    color: colors.WHITE,
-  },
-
-  text_underline: {
-    fontSize: 15,
-    color: colors.WHITE,
-    textDecorationLine: "underline"
-  },
-
-  signupContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    textAlign: 'center',
-    padding: 10
-  },
-
-  forget: {
-    alignItems: 'flex-end',
-    margin: 10
-  },
-
-  divider: {
-    marginVertical: 15
-  }
-});

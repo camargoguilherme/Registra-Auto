@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  KeyboardAvoidingView
-} from 'react-native';
-
-import colors from './src/config/colors';
 
 import AppSwitchNavigator from './routes';
 
-import {  createAppContainer } from 'react-navigation';
+console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
 
 export default class App extends Component {
 
@@ -22,10 +14,10 @@ export default class App extends Component {
     }
   }
 
+
+
   async componentDidMount() {
-
     this.setState({ signLoaded: true })
-
   }
 
   render() {
@@ -35,22 +27,9 @@ export default class App extends Component {
       return null;
     }
 
-    const Layout = createAppContainer(AppSwitchNavigator(signed));
+    const Layout = AppSwitchNavigator(true);
     return (
-      <View style={{ flex: 1 }}>
-        {/* <OfflineNotice />  */}
-        <Layout />
-      </View>
+      <Layout />
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: colors.PRIMARY,
-    alignItems: 'center',
-    justifyContent: 'space-around'
-  }
-});
