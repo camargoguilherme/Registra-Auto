@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
   Image,
   Text,
-  KeyboardAvoidingView,
   TouchableOpacity,
-  
+  KeyboardAvoidingView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import firebase from 'react-native-firebase';
 
-import InputText from '../components/InputText';
-import Button from '../components/MyButton';
+import MyInput from '../components/MyInput';
+import MyButton from '../components/MyButton';
 import strings from '../config/strings';
 import logo from '../assets/images/logo.png';
 
@@ -31,6 +29,7 @@ export default class Login extends Component {
       rightIcon: 'eye-slash',
       isPassword: true
     }
+    this.navigate = this.props.navigation.navigate;
   }
 
   errorLogin({ code, message }) {
@@ -63,11 +62,11 @@ export default class Login extends Component {
 
   handleLoginPress = () => {
     let { email, password } = this.state;
-    const { navigate } = this.props.navigation;
-    // this.setState({
-    //   errorMessageEmail: !email ? 'Campo email é obrigatório' : '',
-    //   errorMessagePassword: !password ? 'Campo password é obrigatório' : ''
-    // })
+    this.setState(prevState => ({
+      errorMessageEmail: !email ? strings.EMAIL_MESSAGE : '',
+      errorMessagePassword: !password ? strings.PASSWORD_MESSAGE : '',
+      loading: !prevState.loading
+    }));
     // if (!email || !password) {
 
     // } else {
@@ -76,7 +75,7 @@ export default class Login extends Component {
     //     .signInWithEmailAndPassword(email, password)
     //     .then(user => {
     //       console.log(user)
-    //       navigate('Home');
+    //       this.navigate('Home');
     //     })
     //     .catch(error => {
     //       console.log(error.code)
@@ -84,7 +83,7 @@ export default class Login extends Component {
     //       this.setState(prevState => ({ password: '', loading: !prevState.loading }))
     //     })
     // }
-    navigate('Home');
+    this.navigate('Home');
 
   }
 
@@ -97,67 +96,66 @@ export default class Login extends Component {
   }
 
   handleIconChange = () => {
-    this.setState( prevState =>({ 
+    this.setState(prevState => ({
       rightIcon: prevState.rightIcon === 'eye' ? 'eye-slash' : 'eye',
-      isPassword: !prevState.isPassword 
+      isPassword: !prevState.isPassword
     }))
   }
 
   render() {
     let { loading } = this.state;
-    const { navigate } = this.props.navigation;
+
     // alert(JSON.stringify(this.state))
     return (
       <KeyboardAvoidingView
-        style={styles.container}
-        behavior='height'>
-
-        <View style={styles.form}>
+        style={styles.container}>
+        <View style={[styles.formLogin, styles.form]}>
           <Image
             source={logo}
             style={styles.logo}
             width={120}
             height={120} />
           <View style={styles.inputContainer}>
-            <InputText
+            <MyInput
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
               errorMessage={this.state.errorMessageEmail}
-              icon={{ name: 'envelope', size: 24, color: 'gray' }}
+              leftIcon={<Icon name='envelope' size={24} color='gray' />}
               onChangeText={this.handleEmailChange}
               value={this.state.email} />
 
-            <InputText
+            <MyInput
               placeholder={strings.PASSWORD_PLACEHOLDER}
               textContentType='password'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessagePassword}
-              icon={{ name: 'lock', size: 24, color: 'gray' }}
+              leftIcon={<Icon name='lock' size={24} color='gray' />}
               onChangeText={this.handlePasswordChange}
               value={this.state.password}
               rightIcon={
                 <TouchableOpacity onPress={this.handleIconChange}>
                   <Icon name={this.state.rightIcon} size={24} color='gray'></Icon>
-                </TouchableOpacity>
-              } />
+                </TouchableOpacity>}
+            />
           </View>
-
-          <Button
+        </View>
+        <View style={styles.buttonLinkContainer}>
+          <MyButton
             title={strings.LOGIN}
             onPress={this.handleLoginPress}
             loading={loading}
-            containerStyle={styles.buttonLogin} />
-          <TouchableOpacity style={styles.forget}
-            onPress={() => { navigate("Forgot") }}>
-            <Text style={styles.text_underline}>Forgot Password?</Text>
-          </TouchableOpacity>
+          />
 
+          <TouchableOpacity style={styles.link}
+            onPress={() => { this.navigate("Forgot") }}>
+            <Text style={styles.textUnderline}>{strings.FORGOT}</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.signupContainer}>
-          <Text style={[styles.text, { marginHorizontal: 10 }]}>Don't have an account,</Text>
+          <Text style={[styles.text, { marginHorizontal: 10 }]}>{strings.DONT_HAVE}</Text>
           <TouchableOpacity
-            onPress={() => { navigate("SignUp") }}>
-            <Text style={styles.text_underline}>Sign Up</Text>
+            onPress={() => { this.navigate("SignUp") }}>
+            <Text style={styles.textUnderline}>{strings.SIGNUP2}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

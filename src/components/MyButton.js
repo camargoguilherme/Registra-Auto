@@ -1,44 +1,29 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
+  View
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Button, ButtonProps } from 'react-native-elements';
+import { styles } from '../config/styles'
 
-type Props = ButtonProps;
+type props = ButtonProps;
 
-export default class MyButton extends Component<Props> {
+export default class MyButton extends Component<props> {
 
   constructor(props) {
     super(props)
   }
 
   render() {
-    let { buttonStyle, ...otherProps } = this.props
-    
+    const { buttonStyle, containerStyle } = this.props
     return (
-      <Button
-        buttonStyle={[styles.buttonStyle, buttonStyle]}
-        {...otherProps}
-
-      />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+          {...this.props}
+          buttonStyle={[styles.buttonStyleMyButton, buttonStyle]}
+          containerStyle={[styles.containerStyleMyButton, containerStyle]}
+        />
+      </View>
     )
   }
-
 }
-
-// let width = (WIDTH<HEIGHT?WIDTH:HEIGHT) * 0.8
-// let height = (WIDTH<HEIGHT?WIDTH:HEIGHT) * 0.1
-
-const styles = StyleSheet.create({
-
-  buttonStyle: {
-    width: '100%',
-    height: 50,
-    alignItems: 'center',
-    borderRadius: 100,    
-  },
-});

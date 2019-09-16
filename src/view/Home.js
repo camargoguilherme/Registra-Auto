@@ -1,64 +1,64 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, FlatList, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
+
 import { styles } from '../config/styles';
+import colors from '../config/colors';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
-    title: 'Fourth Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
-    title: 'Fifth Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d75',
-    title: 'Sixth Item',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28b6',
-    title: 'Seventh Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f67',
-    title: 'Eighth Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d78',
-    title: 'Ninth Item',
-  },
-];
+import Details from '../view/Details';
+import Listing from '../view/Listing';
+import Login from '../view/Login';
+import { translate } from '../locales';
 
-function Item({ title }) {
-  return (
-    <View style={styles.itemList}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-}
 
 export default class Home extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedIndex: 1
+    }
+    this.updateIndex = this.updateIndex.bind(this)
+  }
+
+  updateIndex(selectedIndex) {
+    this.setState({ selectedIndex })
+  }
+
+  renderScreen = (index) => {
+    switch (index) {
+      case 0:
+        return (
+          <Details />
+        );
+      case 1:
+        return (
+          <Listing {...this.props} />
+        );
+      case 2:
+        return (
+          <Login {...this.props} />
+        );
+    }
+  }
+
   render() {
+    const buttons = [translate('REGISTER'), translate('LISTING')]
+    const { selectedIndex } = this.state
     return (
-      <SafeAreaView style={styles.containerFlatList}>
-        <FlatList
-          data={DATA}
-          renderItem={({ item }) => <Item title={item.title} />}
-          keyExtractor={item => item.id}
-        />
-      </SafeAreaView>
-    );
+      <View style={{ height: '100%', backgroundColor: colors.BACKGROUND }}>
+        <ButtonGroup
+          buttonStyle={styles.buttonStyleGB}
+          onPress={this.updateIndex}
+          selectedIndex={selectedIndex}
+          selectedButtonStyle={styles.selectedButtonStyleGroupButtons}
+          selectedTextStyle={styles.selectedTextStyleGroupButtons}
+          disabledTextStyle
+          buttons={buttons}
+          containerStyle={styles.containerStyleGroupButtons} />
+        <View style={{ flex: 1 }}>
+          {this.renderScreen(selectedIndex)}
+        </View>
+      </View>
+    )
   }
 }

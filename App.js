@@ -27,7 +27,7 @@ export default class App extends Component {
       return null;
     }
 
-    const Layout = AppSwitchNavigator(true);
+    const Layout = AppSwitchNavigator(signed);
     return (
       <Layout />
     )

@@ -9,8 +9,9 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import firebase from 'react-native-firebase';
 
-import InputText from '../components/InputText';
-import Button from '../components/MyButton';
+import MyInput from '../components/MyInput';
+import MyButton from '../components/MyButton';
+
 import { styles } from '../config/styles';
 import strings from '../config/strings';
 import logo from '../assets/images/logo.png';
@@ -32,8 +33,8 @@ export default class SignUp extends Component {
       loading: false,
       rightIcon: 'eye-slash',
       isPassword: true
-
     }
+    this.navigate = this.props.navigation.navigate;
   }
 
   errorSignUp({ code, message }) {
@@ -67,10 +68,10 @@ export default class SignUp extends Component {
   handleSignUpPress = () => {
     let { username, email, password, confirmPassword } = this.state;
     this.setState({
-      errorMessageUsername: !username ? 'Campo username é obrigatório' : '',
-      errorMessageEmail: !email ? 'Campo email é obrigatório' : '',
-      errorMessagePassword: !password ? 'Campo password é obrigatório' : '',
-      errorMessageConfirmPassword: !confirmPassword ? 'Campo confirm password é obrigatório' : ''
+      errorMessageUsername: !username ? strings.USERNAME_MESSAGE : '',
+      errorMessageEmail: !email ? strings.EMAIL_MESSAGE : '',
+      errorMessagePassword: !password ? strings.PASSWORD_MESSAGE : '',
+      errorMessageConfirmPassword: !confirmPassword ? strings.CONFIRMPASSWORD_MESSAGE : ''
     })
     if (!email || !password) {
 
@@ -105,41 +106,40 @@ export default class SignUp extends Component {
 
   render() {
     let { loading } = this.state;
-    const { navigate } = this.props.navigation
     // alert(JSON.stringify(this.state))
     return (
       <KeyboardAvoidingView
         style={styles.container}
         behavior='height'>
 
-        <View style={styles.form}>
+        <View style={[styles.form, styles.formSignUp]}>
           <Image
             source={logo}
             style={styles.logo}
             width={120}
             height={120} />
           <View style={styles.inputContainer}>
-            <InputText
+            <MyInput
               placeholder={strings.USERNAME_PLACEHOLDER}
               textContentType='username'
               errorMessage={this.state.errorMessageUsername}
-              icon={{ name: 'user', size: 24, color: 'gray' }}
+              leftIcon={<Icon name='user' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('username', value.trim())}
               value={this.state.username} />
-            <InputText
+            <MyInput
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
               errorMessage={this.state.errorMessageEmail}
-              icon={{ name: 'envelope', size: 24, color: 'gray' }}
+              leftIcon={<Icon name='envelope' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('email', value.trim())}
               value={this.state.email} />
 
-            <InputText
+            <MyInput
               placeholder={strings.PASSWORD_PLACEHOLDER}
               textContentType='password'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessagePassword}
-              icon={{ name: 'lock', size: 24, color: 'gray' }}
+              leftIcon={<Icon name='lock' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('password', value.trim())}
               value={this.state.password}
               rightIcon={
@@ -147,12 +147,12 @@ export default class SignUp extends Component {
                   <Icon name={this.state.rightIcon} size={24} color='gray'></Icon>
                 </TouchableOpacity>
               } />
-            <InputText
+            <MyInput
               placeholder={strings.CONFIRMPASSWORD_PLACEHOLDER}
               textContentType='password'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessageConfirmPassword}
-              icon={{ name: 'lock', size: 24, color: 'gray' }}
+              leftIcon={<Icon name='lock' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('confirmPassword', value.trim())}
               value={this.state.confirmPassword}
               rightIcon={
@@ -162,18 +162,20 @@ export default class SignUp extends Component {
               } />
 
           </View>
-
-          <Button
-            title={strings.SIGNUP}
-            onPress={this.handleSignUpPress}
-            loading={loading}
-            containerStyle={styles.buttonSignUp} />
         </View>
+
+        <View style={styles.buttonLinkContainer}>
+          <MyButton
+            title={strings.SIGNUP1}
+            onPress={this.handleSignUpPress}
+            loading={loading} />
+        </View>
+
         <View style={styles.signupContainer}>
-          <Text style={[styles.text, { marginHorizontal: 10 }]}>Already have an account,</Text>
+          <Text style={[styles.text, { marginHorizontal: 10 }]}>{strings.HAVE}</Text>
           <TouchableOpacity
-            onPress={() => { navigate("LogIn") }}>
-            <Text style={styles.text_underline}>Log in</Text>
+            onPress={() => { this.navigate("LogIn") }}>
+            <Text style={styles.textUnderline}>{strings.LOGIN}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
