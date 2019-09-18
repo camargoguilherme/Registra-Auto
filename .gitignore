@@ -41,6 +41,7 @@ buck-out/
 \.buckd/
 *.keystore
 !android/app/debug.keystore
+!android/app/registra-auto.keystore
 
 # fastlane
 #

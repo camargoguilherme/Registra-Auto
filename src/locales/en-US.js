@@ -16,13 +16,17 @@ export default string = {
   EMAIL_PLACEHOLDER: 'Email',
   PASSWORD_PLACEHOLDER: 'Password',
   CONFIRMPASSWORD_PLACEHOLDER: 'Confirm Password',
+  LICENSE_PLATE_PLACEHOLDER: 'License plate',
+  MODEL_PLACEHOLDER: 'Model',
 
   USERNAME_MESSAGE: '',
   EMAIL_MESSAGE: '',
   PASSWORD_MESSAGE: '',
   CONFIRMPASSWORD_MESSAGE: '',
+  LICENSE_PLATE_MESSAGE: '',
 
   LISTING: 'Listing',
   REGISTER: 'Register',
-
+  TYPE: 'Type',
+  DATE_TIME: 'Date',
 }

@@ -16,13 +16,18 @@ export default string = {
   EMAIL_PLACEHOLDER: 'Email',
   PASSWORD_PLACEHOLDER: 'Senha',
   CONFIRMPASSWORD_PLACEHOLDER: 'Confirme a Senha',
+  LICENSE_PLATE_PLACEHOLDER: 'Placa',
+  MODEL_PLACEHOLDER: 'Modelo',
 
   USERNAME_MESSAGE: 'Campo usuário é obrigatório',
   EMAIL_MESSAGE: 'Campo email é obrigatório',
   PASSWORD_MESSAGE: 'Campo senha é obrigatório',
   CONFIRMPASSWORD_MESSAGE: 'Campo confirme a senha é obrigatório',
+  LICENSE_PLATE_MESSAGE: 'Campo confirme a senha é obrigatório',
 
   LISTING: 'Listagem',
   REGISTER: 'Cadastrar',
+  TYPE: 'Tipo',
+  DATE_TIME: 'Data',
   
 }

@@ -15,7 +15,7 @@ export default class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedIndex: 1
+      selectedIndex: 0
     }
     this.updateIndex = this.updateIndex.bind(this)
   }
@@ -28,7 +28,7 @@ export default class Home extends Component {
     switch (index) {
       case 0:
         return (
-          <Details />
+          <Details {...this.props} />
         );
       case 1:
         return (
@@ -47,14 +47,14 @@ export default class Home extends Component {
     return (
       <View style={{ height: '100%', backgroundColor: colors.BACKGROUND }}>
         <ButtonGroup
-          buttonStyle={styles.buttonStyleGB}
           onPress={this.updateIndex}
           selectedIndex={selectedIndex}
+          containerStyle={styles.containerStyleGroupButtons}
+          buttonStyle={styles.buttonStyleGroupButtons}
           selectedButtonStyle={styles.selectedButtonStyleGroupButtons}
           selectedTextStyle={styles.selectedTextStyleGroupButtons}
-          disabledTextStyle
-          buttons={buttons}
-          containerStyle={styles.containerStyleGroupButtons} />
+          textStyle={styles.textStyleGroupButtons}
+          buttons={buttons} />
         <View style={{ flex: 1 }}>
           {this.renderScreen(selectedIndex)}
         </View>

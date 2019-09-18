@@ -6,7 +6,7 @@ import { styles } from '../config/styles';
 import strings from '../config/strings';
 import MyButton from './MyButton';
 import colors from '../config/colors';
-import { Icon } from 'react-native-elements';
+import { Icon, Badge } from 'react-native-elements';
 
 type props = FlatListProps;
 
@@ -56,7 +56,7 @@ export default class MyFlatList extends Component<props> {
             <Text style={styles.textModelo}>{item.name}</Text>
             <View style={styles.containerStatus}>
               <Text style={styles.itemTitulo}>{item.entrada}</Text>
-              <Text style={styles.itemTitulo}>{item.status}</Text>
+              <Badge status="success" value={<Text style={styles.itemTitulo}>{item.status}</Text>} />
             </View>
           </View>
           {/* <TouchableOpacity

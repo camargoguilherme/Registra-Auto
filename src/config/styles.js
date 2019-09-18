@@ -23,8 +23,13 @@ export const styles = StyleSheet.create({
   form: {
     margin: 20,
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: 'rgba(255, 255, 255, 0.4)'
+  },
+
+  formDetails: {
+    height: metrics.DEVICE_HEIGHT * 0.70,
+    flexDirection: 'row'
   },
 
   formLogin: {
@@ -59,6 +64,7 @@ export const styles = StyleSheet.create({
   buttonLinkContainer: {
     flexDirection: 'column',
     marginTop: -45,
+    marginHorizontal: 5,
     width: metrics.DEVICE_WIDTH * 0.75,
     height: 95,
     alignSelf: 'center',
@@ -82,13 +88,11 @@ export const styles = StyleSheet.create({
   },
 
   // Styles MyButton
-
   buttonStyleMyButton: {
     flex: 1,
     width: '100%',
     height: 50,
     alignItems: 'center',
-    borderRadius: 100,
   },
 
   containerStyleMyButton: {
@@ -98,25 +102,29 @@ export const styles = StyleSheet.create({
 
   // Styles MyInput
   containerStyleMyInput: {
-    flex: 1,
     height: 75,
+    marginVertical: 5,
     paddingHorizontal: 0,
   },
 
-  inputContainerStyle: {
+  inputContainerStyleMyInput: {
     width: '100%',
     height: 50,
     paddingHorizontal: 10,
     alignItems: 'center',
     borderColor: 'gray',
-    borderRadius: 100,
     borderWidth: StyleSheet.hairlineWidth * 5,
     backgroundColor: 'rgba(255, 255, 255, 0.7)'
   },
 
-  leftIconContainerStyle: {
+  leftIconContainerStyleMyInput: {
     marginRight: 10,
     alignContent: "space-around"
+  },
+
+  labelStyleMyInput: {
+    fontSize: 18,
+    color: colors.DEFAULT
   },
 
   error: {
@@ -135,19 +143,16 @@ export const styles = StyleSheet.create({
   },
 
   // Styles MyFlatList
-
   item: {
     minHeight: 75,
     maxHeight: 120,
     height: 100,
     margin: 8,
     backgroundColor: '#FAFAFA',
-    borderRadius: 10,
     flexDirection: 'row'
   },
 
   // Styles FlatListItem
-
   contentInfor: {
     flex: 2,
     margin: 5,
@@ -182,8 +187,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   containerStatus: {
@@ -194,6 +199,8 @@ export const styles = StyleSheet.create({
   },
 
   itemTitulo: {
+    marginHorizontal: 5,
+    fontSize: 16
   },
 
   // Styles MySearchBar
@@ -204,20 +211,28 @@ export const styles = StyleSheet.create({
   },
 
   // Style GroupButtons
-  buttonStyleGroupButtons: {
-    backgroundColor: colors.DEFAULT,
-  },
-
-  selectedButtonStyleGroupButtons: {
-    backgroundColor: colors.BACKGROUND
-  },
-
-  selectedTextStyleGroupButtons: {
-    fontWeight: 'bold', fontSize: 20
-  },
 
   containerStyleGroupButtons: {
     height: 45
+  },
+
+  buttonStyleGroupButtons: {
+    backgroundColor: colors.BACKGROUND,
+  },
+
+  selectedButtonStyleGroupButtons: {
+    backgroundColor: colors.WHITE
+  },
+
+  selectedTextStyleGroupButtons: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: colors.BACKGROUND,
+  },
+
+  textStyleGroupButtons: {
+    fontWeight: '400',
+    color: colors.WHITE,
   },
 
   // Styles Overlay
@@ -260,6 +275,71 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
 
+  },
+
+  // Styles MyPicker
+  containerMyPicker: {
+    marginVertical: 5,
+    marginHorizontal: 2,
+    paddingHorizontal: 0,
+  },
+
+  labelStyleMyPicker: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.DEFAULT,
+  },
+
+  containerStyleMyPicker: {
+    height: 50,
+    alignItems: 'center',
+    borderColor: 'gray',
+    borderWidth: StyleSheet.hairlineWidth * 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)'
+  },
+
+  //Styles ImagesSlider
+
+  containerImagesSlider: {
+    height: 120,
+    borderWidth: 3,
+    borderColor: colors.SILVER,
+    backgroundColor: colors.DEFAULT,
+    paddingVertical: 5
+  },
+
+  itemImagesSlider: {
+    height: 100,
+    width: 90,
+    marginHorizontal: 10,
+    backgroundColor: '#FAFAFA',
+    flexDirection: 'row',
+  },
+
+  containerItemImageSlider: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+
+  deleteItemImageSlider:{
+    height: '50%',
+    width: '50%',
+    borderColor: colors.DANGER,
+    borderWidth: 2,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  cameraImageSlider:{
+    bottom: 0,
+    left: '85%',
+    width: 40,
+    height: 40,
+    borderColor: colors.WHITE,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 
 });

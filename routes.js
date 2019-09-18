@@ -1,6 +1,4 @@
 import {
-  createDrawerNavigator,
-  createMaterialTopTabNavigator,
   createSwitchNavigator,
   createAppContainer
 } from 'react-navigation';
@@ -32,13 +30,6 @@ const AppStackNavigator = createStackNavigator({
   }
 }, {
   headerTintColor: 'rgba(255, 255, 255, 0.4)',
-  headerTitleContainerStyle:{
-    justifyContent: 'center'
-  },
-  headerTitleStyle:{
-    fontWeight: 'bold',
-    fontSize: 25
-  }
 })
 
 export default AppSwitchNavigator = (signedIn) => {

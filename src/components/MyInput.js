@@ -16,16 +16,18 @@ export default class MyInput extends Component<props>{
   }
 
   render() {
+    let { containerStyle, inputContainerStyle, leftIconContainerStyle, labelStyle, errorStyle, ...otherProps } = this.props;
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Input
-          containerStyle={styles.containerStyleMyInput}
-          inputContainerStyle={styles.inputContainerStyle}
-          leftIconContainerStyle={styles.leftIconContainerStyle}
-          errorStyle={styles.error}
-          {...this.props}
-        />
-      </View>
+      <Input
+        containerStyle={[styles.containerStyleMyInput, containerStyle]}
+        placeholderTextColor='gray'
+        inputContainerStyle={[styles.inputContainerStyleMyInput, inputContainerStyle]}
+        leftIconContainerStyle={[styles.leftIconContainerStyleMyInput, leftIconContainerStyle]}
+        labelStyle={[styles.labelStyleMyInput, labelStyle]}
+        errorStyle={[styles.error, errorStyle]}
+        labelStyle={[styles.labelStyleMyInput, labelStyle]}
+        {...otherProps}
+      />
     )
   }
 }
