@@ -35,7 +35,7 @@ export default class Login extends Component {
   errorLogin({ code, message }) {
     switch (code) {
       case 'auth/wrong-password':
-        this.setState({ errorMessagePassword: message })
+        this.setState(prevState => ({ errorMessagePassword: message,  loading: !prevState.loading}) );
         break;
       case '':
 
@@ -67,23 +67,22 @@ export default class Login extends Component {
       errorMessagePassword: !password ? strings.PASSWORD_MESSAGE : '',
       loading: !prevState.loading
     }));
-    // if (!email || !password) {
+    if (!email || !password) {
 
-    // } else {
-    //   this.setState(prevState => ({loading: !prevState.loading }))
-    //   firebase.auth()
-    //     .signInWithEmailAndPassword(email, password)
-    //     .then(user => {
-    //       console.log(user)
-    //       this.navigate('Home');
-    //     })
-    //     .catch(error => {
-    //       console.log(error.code)
-    //       this.errorLogin(error)
-    //       this.setState(prevState => ({ password: '', loading: !prevState.loading }))
-    //     })
-    // }
-    this.navigate('Home');
+    } else {
+      this.setState(prevState => ({loading: !prevState.loading }))
+      firebase.auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(user => {
+          console.log(user)
+          this.navigate('Home');
+        })
+        .catch(error => {
+          console.log(error.code)
+          this.errorLogin(error)
+          this.setState(prevState => ({ password: '', loading: !prevState.loading }))
+        })
+    }
 
   }
 

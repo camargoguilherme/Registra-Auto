@@ -3,8 +3,7 @@ import { View, Text, FlatList, ImageBackground, FlatListProps, TouchableOpacity 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { styles } from '../config/styles';
-import { selectPhotoTapped } from '../services/UploadImage';
-
+import image from '../util/image';
 type props = FlatListProps;
 
 export default class MyImagesSlider extends Component<props> {
@@ -58,12 +57,15 @@ export default class MyImagesSlider extends Component<props> {
             horizontal
             renderItem={({ item }) => this.renderItem(item)}
             keyExtractor={({ id, title }) => id + title}
-            initialScrollIndex={this.props.data && parseInt(this.props.data.length / 2)} />
+            initialScrollIndex={data && parseInt(data.length / 2)} />
         </View>
         <TouchableOpacity
           style={styles.cameraImageSlider}
-          onPress={ () => selectPhotoTapped(foto => {
-           //this.setState(prevState => ({ data: [...foto, prevState.data]}))
+          onPress={ () => image.selectPhotoTapped(foto => {
+            console.log('MyImageSlider:selectPhotoTapped', foto);
+            this.setState(prevState => ({ data: [...prevState.data, foto] }));
+            data && console.log('index', parseInt(data.length / 2))
+            console.log('length', data.length)
           })
           }>
           <Icon name='camera' size={35} color={styles.cameraImageSlider.borderColor} />

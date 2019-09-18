@@ -5,7 +5,7 @@ import RNFS from 'react-native-fs';
 // import { getUser, setUser } from './ApiServices';
 
 
-export const selectPhotoTapped = (cb) => {
+selectPhotoTapped = async (cb) => {
   // More info on all the options is below in the API Reference... just some common use cases shown here
   const options = {
     title: 'Selecione uma foto',
@@ -23,16 +23,16 @@ export const selectPhotoTapped = (cb) => {
 
   ImagePicker.showImagePicker(options, (result) => {
     if (!result.didCancel) {
-       console.log('showImagePicker', result)
-      cb(this.uploadImage(result))
+       // console.log('showImagePicker', result)
+      this.uploadImage(result).then( image => cb(image))
     }
   });
 }
 
 uploadImage = async (data) => {
-  //let result = await takeSnapshot(data.data)
-  console.log('result', data)
-  return { id: Date.now(), url: data.data}
+  let url = await this.takeSnapshot(data.data)
+  //console.log('result', result)
+  return { id: Date.now(), url: url}
 }
 
 
@@ -85,6 +85,7 @@ uploadImage1 = async (data) => {
 
 
 takeSnapshot = async (base64) => {
+  const path = `${RNFS.ExternalStorageDirectoryPath}/Regista Auto`;
   const currentStatus = await Permissions.check('storage');
 
   if (currentStatus !== 'authorized') {
@@ -95,12 +96,24 @@ takeSnapshot = async (base64) => {
     }
   }
 
-  let path = RNFS.re `${RNFS.ExternalStorageDirectoryPath}/Regista Auto/${Date.now()}.jpeg`;
+  if(!(await RNFS.exists(path))){
+    console.log('takeSnapshot:mkdir', path);
+    RNFS.mkdir(path);
+  }
+
+  let pathFile = `${path}/${Date.now()}.jpeg`;
   try {
-    const data = await RNFS.write(path, base64, 'base64');
-    console.log('data', data);
-    return data
+    await RNFS.writeFile(pathFile, base64, 'base64');
+    return pathFile
   } catch (error) {
     console.log(error.message);
   }
 };
+
+const image = {
+  selectPhotoTapped: selectPhotoTapped,
+  uploadImage: uploadImage,
+  takeSnapshot: takeSnapshot
+}
+
+export default image;
