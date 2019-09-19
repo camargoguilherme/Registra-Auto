@@ -14,6 +14,14 @@ export default string = {
   DONT_HAVE: translate('DONT_HAVE'),
   HAVE: translate('HAVE'),
 
+  USERNAME_LABEL: translate('USERNAME_LABEL'),
+  EMAIL_LABEL: translate('EMAIL_LABEL'),
+  PASSWORD_LABEL: translate('PASSWORD_LABEL'),
+  CONFIRMPASSWORD_LABEL: translate('CONFIRMPASSWORD_LABEL'),
+  LICENSE_PLATE_LABEL: translate('LICENSE_PLATE_LABEL'),
+  MODEL_LABEL: translate('MODEL_LABEL'),
+  DATE_HOUR_LABEL: translate('DATE_HOUR_LABEL'),
+
   USERNAME_PLACEHOLDER: translate('USERNAME_PLACEHOLDER'),
   EMAIL_PLACEHOLDER: translate('EMAIL_PLACEHOLDER'),
   PASSWORD_PLACEHOLDER: translate('PASSWORD_PLACEHOLDER'),
@@ -31,5 +39,7 @@ export default string = {
   REGISTER: translate('REGISTER'),
   TYPE: translate('TYPE'),
   DATE_TIME: translate('DATE_TIME'),
-
+  USER_NOT_FOUND: translate('USER_NOT_FOUND'),
+  WRONG_PASSWORD: translate('WRONG_PASSWORD'),
+  INVALID_EMAIL: translate('INVALID_EMAIL')
 }

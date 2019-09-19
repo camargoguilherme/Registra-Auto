@@ -100,7 +100,8 @@ export default class Details extends Component {
 					<View style={{ flexDirection: 'row' }}>
 						<View style={[styles.inputContainer]}>
 							<MyInput
-								label={strings.LICENSE_PLATE_PLACEHOLDER}
+								label={strings.LICENSE_PLATE_LABEL}
+								placeholder={strings.LICENSE_PLATE_PLACEHOLDER}
 								errorMessage={this.state.errorMessageEmail}
 								icon={{ name: 'envelope', size: 24, color: 'gray' }}
 								onChangeText={text => this.handleChange('plate', text)}
@@ -115,7 +116,8 @@ export default class Details extends Component {
 						</View>
 						<View style={styles.inputContainer}>
 							<MyInput
-								label={strings.MODEL_PLACEHOLDER}
+								label={strings.MODEL_LABEL}
+								placeholder={strings.MODEL_PLACEHOLDER}
 								errorMessage={this.state.errorMessageEmail}
 								icon={{ name: 'envelope', size: 24, color: 'gray' }}
 								onChangeText={text => this.handleChange('model', text)}

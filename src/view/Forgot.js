@@ -3,6 +3,8 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
+  TouchableOpacity,
+  Text
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -106,6 +108,7 @@ export default class Login extends Component {
             height={120} />
           <View style={styles.inputContainer}>
             <MyInput
+              label={strings.EMAIL_LABEL}
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
               errorMessage={this.state.errorMessageEmail}
@@ -120,6 +123,12 @@ export default class Login extends Component {
             title={strings.SEND}
             onPress={this.handleLoginPress}
             loading={loading} />
+        </View>
+        <View style={styles.signupContainer}>
+          <TouchableOpacity
+            onPress={() => { this.navigate("LogIn") }}>
+            <Text style={styles.textUnderline}>{strings.LOGIN}</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     )

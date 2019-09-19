@@ -17,7 +17,7 @@ export default class MyPicker extends Component<props> {
 
     return (
       <View style={styles.containerMyPicker}>
-        <Text style={styles.labelStyleMyPicker}>{strings.TYPE}</Text>
+        <Text style={styles.labelStyleMyPicker}>{strings.TYPE_LABEL}</Text>
         <Picker
           style={styles.containerStyleMyPicker}
           {...otherProps}>

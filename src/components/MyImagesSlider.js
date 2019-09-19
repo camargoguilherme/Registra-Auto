@@ -12,7 +12,7 @@ export default class MyImagesSlider extends Component<props> {
 
     this.state = {
       loading: false,
-      data: [],
+      data: [...this.props.data],
       itemSelected: {
         id: '',
         url: ''

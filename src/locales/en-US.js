@@ -11,13 +11,20 @@ export default string = {
   FORGOT: 'Forgot Password?',
   DONT_HAVE: "Don't have an account?",
   HAVE: 'Already have an account?',
+
+  USERNAME_LABEL: 'Username',
+  EMAIL_LABEL: 'E-mail',
+  PASSWORD_LABEL: 'Password',
+  CONFIRMPASSWORD_LABEL: 'Confirm Password',
+  LICENSE_PLATE_LABEL: 'License plate',
+  MODEL_LABEL: 'Model',
   
   USERNAME_PLACEHOLDER: 'Username',
-  EMAIL_PLACEHOLDER: 'Email',
-  PASSWORD_PLACEHOLDER: 'Password',
-  CONFIRMPASSWORD_PLACEHOLDER: 'Confirm Password',
-  LICENSE_PLATE_PLACEHOLDER: 'License plate',
-  MODEL_PLACEHOLDER: 'Model',
+  EMAIL_PLACEHOLDER: 'E-mail: user@provider.com',
+  PASSWORD_PLACEHOLDER: 'Enter your password here',
+  CONFIRMPASSWORD_PLACEHOLDER: 'Confirm your Password',
+  LICENSE_PLATE_PLACEHOLDER: 'Vehicle License plate',
+  MODEL_PLACEHOLDER: 'Vehicle Model',
 
   USERNAME_MESSAGE: '',
   EMAIL_MESSAGE: '',
@@ -29,4 +36,8 @@ export default string = {
   REGISTER: 'Register',
   TYPE: 'Type',
   DATE_TIME: 'Date',
+  USER_NOT_FOUND: 'E-mail not found',
+  WRONG_PASSWORD: 'Wrong password',
+  INVALID_EMAIL: 'The email address is badly formated'
+
 }

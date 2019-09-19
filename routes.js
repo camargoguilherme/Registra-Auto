@@ -10,6 +10,7 @@ import SignUp from './src/view/SignUp';
 import Forgot from './src/view/Forgot';
 import Home from './src/view/Home';
 import Details from './src/view/Details';
+import colors from './src/config/colors';
 
 const AppStackNavigator = createStackNavigator({
   Home: {
@@ -29,10 +30,20 @@ const AppStackNavigator = createStackNavigator({
     }
   }
 }, {
-  headerTintColor: 'rgba(255, 255, 255, 0.4)',
+  defaultNavigationOptions: {
+    headerTintColor: 'rgba(255, 255, 255, 0.4)',
+    headerStyle: {
+      backgroundColor: colors.WHITE,
+      alignContent: 'center'
+    },
+    headerTitleStyle: {
+      color: colors.LOGO,
+      fontSize: 25,
+    }
+  }
 })
 
-export default AppSwitchNavigator = (signedIn) => {
+const AppSwitchNavigator = (signedIn) => {
   return createAppContainer(
     createSwitchNavigator({
       'LogIn': {
@@ -53,3 +64,5 @@ export default AppSwitchNavigator = (signedIn) => {
       })
   );
 }
+
+export default AppSwitchNavigator;

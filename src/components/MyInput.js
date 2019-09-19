@@ -24,8 +24,7 @@ export default class MyInput extends Component<props>{
         inputContainerStyle={[styles.inputContainerStyleMyInput, inputContainerStyle]}
         leftIconContainerStyle={[styles.leftIconContainerStyleMyInput, leftIconContainerStyle]}
         labelStyle={[styles.labelStyleMyInput, labelStyle]}
-        errorStyle={[styles.error, errorStyle]}
-        labelStyle={[styles.labelStyleMyInput, labelStyle]}
+        errorStyle={[styles.error, errorStyle]} 
         {...otherProps}
       />
     )

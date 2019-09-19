@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
-
 import AppSwitchNavigator from './routes';
+
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reduxThunk from 'redux-thunk';
+import {composeWithDevTools} from 'remote-redux-devtools';
+
+import rootReducer from './src/reducers';
+
+const store = createStore(rootReducer, composeWithDevTools(
+  applyMiddleware(reduxThunk)
+));
+
 
 console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
 
@@ -9,12 +20,10 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      signed: false,
+      signed: !false,
       signLoaded: false,
     }
   }
-
-
 
   async componentDidMount() {
     this.setState({ signLoaded: true })
@@ -29,7 +38,10 @@ export default class App extends Component {
 
     const Layout = AppSwitchNavigator(signed);
     return (
-      <Layout />
+      <Provider store={store}>
+        <Layout />
+      </Provider>
+
     )
   }
 }

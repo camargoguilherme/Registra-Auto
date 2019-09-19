@@ -4,10 +4,14 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import firebase from 'react-native-firebase';
+
+import { connect } from 'react-redux';
+import { processLogin } from '../actions';
 
 import MyInput from '../components/MyInput';
 import MyButton from '../components/MyButton';
@@ -16,7 +20,7 @@ import logo from '../assets/images/logo.png';
 
 import { styles } from '../config/styles';
 
-export default class Login extends Component {
+class Login extends Component {
 
   constructor(props) {
     super(props)
@@ -25,73 +29,71 @@ export default class Login extends Component {
       password: '',
       errorMessageEmail: '',
       errorMessagePassword: '',
-      loading: false,
+      isLoading: false,
       rightIcon: 'eye-slash',
       isPassword: true
     }
     this.navigate = this.props.navigation.navigate;
   }
 
-  errorLogin({ code, message }) {
+  getMessageByError({ code, message }) {
     switch (code) {
-      case 'auth/wrong-password':
-        this.setState(prevState => ({ errorMessagePassword: message,  loading: !prevState.loading}) );
+      case "auth/user-not-found":
+        this.setState(prevState => ({ errorMessageEmail: strings.USER_NOT_FOUND, isLoading: !prevState.isLoading }));
         break;
-      case '':
-
+      case "auth/wrong-password":
+        this.setState(prevState => ({ errorMessagePassword: strings.WRONG_PASSWORD, isLoading: !prevState.isLoading }));
         break;
-      case '':
-
+      case "auth/invalid-email":
+        this.setState(prevState => ({ errorMessageEmail: strings.INVALID_EMAIL, isLoading: !prevState.isLoading }));
         break;
-      case '':
-
+      default:
+        // return "Erro desconhecido.";
+        console.log(code, message)
+        Alert.alert(code, message)
+        this.setState(prevState => ({ isLoading: !prevState.isLoading }));
         break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-
-
     }
   }
+
 
   handleLoginPress = () => {
     let { email, password } = this.state;
     this.setState(prevState => ({
       errorMessageEmail: !email ? strings.EMAIL_MESSAGE : '',
       errorMessagePassword: !password ? strings.PASSWORD_MESSAGE : '',
-      loading: !prevState.loading
+      isLoading: !prevState.isLoading
     }));
-    if (!email || !password) {
 
-    } else {
-      this.setState(prevState => ({loading: !prevState.loading }))
-      firebase.auth()
-        .signInWithEmailAndPassword(email, password)
+    if (email.length > 0 && password.length > 0) {
+      this.props.processLogin({ email, password })
         .then(user => {
-          console.log(user)
-          this.navigate('Home');
+
+          if (user) {
+            this.navigate('Home');
+          } else {
+
+            this.setState({
+              isLoadinggg: false,
+              message: '',
+            })
+          }
         })
         .catch(error => {
-          console.log(error.code)
-          this.errorLogin(error)
-          this.setState(prevState => ({ password: '', loading: !prevState.loading }))
+          this.setState({
+            isLoadinggg: false,
+          });
+          this.getMessageByError(error)
         })
     }
 
+
   }
 
-  handleEmailChange = (email: string) => {
-    this.setState({ email: email.trim() })
-  }
-
-  handlePasswordChange = (password: string) => {
-    this.setState({ password: password.trim() })
+  onChangeHandler(field, valor) {
+    this.setState({
+      [field]: valor.trim()
+    })
   }
 
   handleIconChange = () => {
@@ -102,7 +104,7 @@ export default class Login extends Component {
   }
 
   render() {
-    let { loading } = this.state;
+    let { isLoading } = this.state;
 
     // alert(JSON.stringify(this.state))
     return (
@@ -116,20 +118,22 @@ export default class Login extends Component {
             height={120} />
           <View style={styles.inputContainer}>
             <MyInput
+              label={strings.EMAIL_LABEL}
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
               errorMessage={this.state.errorMessageEmail}
               leftIcon={<Icon name='envelope' size={24} color='gray' />}
-              onChangeText={this.handleEmailChange}
+              onChangeText={(text) => this.onChangeHandler('email', text)}
               value={this.state.email} />
 
             <MyInput
+              label={strings.PASSWORD_LABEL}
               placeholder={strings.PASSWORD_PLACEHOLDER}
               textContentType='password'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessagePassword}
               leftIcon={<Icon name='lock' size={24} color='gray' />}
-              onChangeText={this.handlePasswordChange}
+              onChangeText={(text) => this.onChangeHandler('password', text)}
               value={this.state.password}
               rightIcon={
                 <TouchableOpacity onPress={this.handleIconChange}>
@@ -142,7 +146,7 @@ export default class Login extends Component {
           <MyButton
             title={strings.LOGIN}
             onPress={this.handleLoginPress}
-            loading={loading}
+            loading={isLoading}
           />
 
           <TouchableOpacity style={styles.link}
@@ -162,3 +166,4 @@ export default class Login extends Component {
   }
 }
 
+export default connect(null, { processLogin })(Login);

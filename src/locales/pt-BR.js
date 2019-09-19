@@ -11,13 +11,20 @@ export default string = {
   FORGOT: 'Esqueceu a senha?',
   DONT_HAVE: "Não tem uma conta?",
   HAVE: 'Já tem uma conta?',
+
+  USERNAME_LABEL: 'Usuário',
+  EMAIL_LABEL: 'E-mail',
+  PASSWORD_LABEL: 'Senha',
+  CONFIRMPASSWORD_LABEL: 'Confirme a senha',
+  LICENSE_PLATE_LABEL: 'Placa',
+  MODEL_LABEL: 'Modelo',  
   
   USERNAME_PLACEHOLDER: 'Usuário',
-  EMAIL_PLACEHOLDER: 'Email',
-  PASSWORD_PLACEHOLDER: 'Senha',
-  CONFIRMPASSWORD_PLACEHOLDER: 'Confirme a Senha',
-  LICENSE_PLATE_PLACEHOLDER: 'Placa',
-  MODEL_PLACEHOLDER: 'Modelo',
+  EMAIL_PLACEHOLDER: 'E-mail: user@provider.com',
+  PASSWORD_PLACEHOLDER: 'Insira sua senha aqui',
+  CONFIRMPASSWORD_PLACEHOLDER: 'Confirme sua Senha',
+  LICENSE_PLATE_PLACEHOLDER: 'Placa do veículo',
+  MODEL_PLACEHOLDER: 'Modelo do veículo',
 
   USERNAME_MESSAGE: 'Campo usuário é obrigatório',
   EMAIL_MESSAGE: 'Campo email é obrigatório',
@@ -29,5 +36,7 @@ export default string = {
   REGISTER: 'Cadastrar',
   TYPE: 'Tipo',
   DATE_TIME: 'Data',
-  
+  USER_NOT_FOUND: 'E-mail não encontrado',
+  WRONG_PASSWORD: 'Senha errada',
+  INVALID_EMAIL: 'O endereço de email está mal formatado'
 }

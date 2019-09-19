@@ -120,6 +120,7 @@ export default class SignUp extends Component {
             height={120} />
           <View style={styles.inputContainer}>
             <MyInput
+              label={strings.USERNAME_LABEL}
               placeholder={strings.USERNAME_PLACEHOLDER}
               textContentType='username'
               errorMessage={this.state.errorMessageUsername}
@@ -127,6 +128,7 @@ export default class SignUp extends Component {
               onChangeText={(value) => this.handleChange('username', value.trim())}
               value={this.state.username} />
             <MyInput
+              label={strings.EMAIL_LABEL}
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
               errorMessage={this.state.errorMessageEmail}
@@ -135,6 +137,7 @@ export default class SignUp extends Component {
               value={this.state.email} />
 
             <MyInput
+              label={strings.PASSWORD_LABEL}
               placeholder={strings.PASSWORD_PLACEHOLDER}
               textContentType='password'
               secureTextEntry={this.state.isPassword}
@@ -148,6 +151,7 @@ export default class SignUp extends Component {
                 </TouchableOpacity>
               } />
             <MyInput
+              label={strings.CONFIRMPASSWORD_LABEL}
               placeholder={strings.CONFIRMPASSWORD_PLACEHOLDER}
               textContentType='password'
               secureTextEntry={this.state.isPassword}

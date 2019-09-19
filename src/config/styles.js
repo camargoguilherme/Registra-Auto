@@ -33,15 +33,15 @@ export const styles = StyleSheet.create({
   },
 
   formLogin: {
-    height: metrics.DEVICE_HEIGHT * 0.5,
+    height: metrics.DEVICE_HEIGHT * 0.55,
   },
 
   formSignUp: {
-    height: metrics.DEVICE_HEIGHT * 0.75,
+    height: metrics.DEVICE_HEIGHT * 0.78,
   },
 
   formForgot: {
-    height: metrics.DEVICE_HEIGHT * 0.4,
+    height: metrics.DEVICE_HEIGHT * 0.45,
   },
 
   inputContainer: {
@@ -114,7 +114,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'gray',
     borderWidth: StyleSheet.hairlineWidth * 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)'
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
   },
 
   leftIconContainerStyleMyInput: {
