@@ -12,7 +12,7 @@ export default class MyImagesSlider extends Component<props> {
 
     this.state = {
       loading: false,
-      data: [...this.props.data],
+      data: [],
       itemSelected: {
         id: '',
         url: ''
@@ -29,7 +29,7 @@ export default class MyImagesSlider extends Component<props> {
 
   renderItem = (item) => {
     return (
-      <View style={styles.itemImagesSlider}>
+      <View key={item.id} style={styles.itemImagesSlider}>
         <View style={styles.containerItemImageSlider}>
           <ImageBackground
             resizeMode={'cover'}
@@ -48,7 +48,7 @@ export default class MyImagesSlider extends Component<props> {
   }
 
   render() {
-    let { isVisible, itemSelected, data } = this.state
+    let { isVisible, itemSelected, data } = this.state;
     return (
       <View>
         <View style={styles.containerImagesSlider}>
@@ -56,14 +56,13 @@ export default class MyImagesSlider extends Component<props> {
             data={data}
             horizontal
             renderItem={({ item }) => this.renderItem(item)}
-            keyExtractor={({ id, title }) => id + title}
-            initialScrollIndex={data && parseInt(data.length / 2)} />
+            keyExtractor={({ id }) => id } />
         </View>
         <TouchableOpacity
           style={styles.cameraImageSlider}
           onPress={ () => image.selectPhotoTapped(foto => {
             console.log('MyImageSlider:selectPhotoTapped', foto);
-            this.setState(prevState => ({ data: [...prevState.data, foto] }));
+            this.setState({ data: [...this.state.data, foto] });
             data && console.log('index', parseInt(data.length / 2))
             console.log('length', data.length)
           })

@@ -7,7 +7,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import firebase from 'react-native-firebase';
+
+import { connect } from 'react-redux';
+import { processSignup } from '../actions';
 
 import MyInput from '../components/MyInput';
 import MyButton from '../components/MyButton';
@@ -17,7 +19,7 @@ import strings from '../config/strings';
 import logo from '../assets/images/logo.png';
 
 
-export default class SignUp extends Component {
+class SignUp extends Component {
 
   constructor(props) {
     super(props)
@@ -30,65 +32,77 @@ export default class SignUp extends Component {
       errorMessagePassword: '',
       errorMessageConfirmPassword: '',
       errorMessageEmail: '',
-      loading: false,
+      isLoading: false,
       rightIcon: 'eye-slash',
       isPassword: true
     }
     this.navigate = this.props.navigation.navigate;
   }
 
-  errorSignUp({ code, message }) {
+  getMessageByError({ code, message }) {
     switch (code) {
-      case 'auth/wrong-password':
-        this.setState({ errorMessagePassword: message })
+      case "auth/user-not-found":
+        this.setState(prevState => ({ errorMessageEmail: strings.USER_NOT_FOUND, isLoading: !prevState.isLoading }));
         break;
-      case '':
-
+      case "auth/wrong-password":
+        this.setState(prevState => ({ errorMessagePassword: strings.WRONG_PASSWORD, isLoading: !prevState.isLoading }));
         break;
-      case '':
-
+      case "auth/invalid-email":
+        this.setState(prevState => ({ errorMessageEmail: strings.INVALID_EMAIL, isLoading: !prevState.isLoading }));
         break;
-      case '':
-
+      case "auth/weak-password":
+        this.setState(prevState => ({ errorMessageEmail: strings.WEAK_PASSWORD, isLoading: !prevState.isLoading }));
         break;
-      case '':
-
+      default:
+        // return "Erro desconhecido.";
+        console.log(code, message)
+        Alert.alert(code, message)
+        this.setState(prevState => ({ isLoading: !prevState.isLoading }));
         break;
-      case '':
-
-        break;
-      case '':
-
-        break;
-
-
     }
   }
 
   handleSignUpPress = () => {
     let { username, email, password, confirmPassword } = this.state;
-    this.setState({
+    this.setState(prevState => ({
       errorMessageUsername: !username ? strings.USERNAME_MESSAGE : '',
       errorMessageEmail: !email ? strings.EMAIL_MESSAGE : '',
       errorMessagePassword: !password ? strings.PASSWORD_MESSAGE : '',
-      errorMessageConfirmPassword: !confirmPassword ? strings.CONFIRMPASSWORD_MESSAGE : ''
-    })
-    if (!email || !password) {
-
-    } else {
-      this.setState({ loading: true })
-      firebase.auth()
-        .createUserWithEmailAndPassword(email, password)
+      errorMessageConfirmPassword: !confirmPassword ? strings.CONFIRMPASSWORD_MESSAGE : '',
+      isLoading: !prevState.isLoading 
+    }))
+    if (password !== confirmPassword) {
+      this.setState(prevState => ({
+        errorMessagePassword: strings.PASSWORD_NOT_MATCH_MESSAGE,
+        isLoading: !prevState.isLoading
+      }))
+    } else
+      if (email.length > 0 && password.length > 0) {
+        // this.setState({ isLoading: true })
+        // firebase.auth()
+        //   .createUserWithEmailAndPassword(email, password)
+        //   .then(user => {
+        //     console.log(user)
+        //     this.setState({ password: '', isLoading: false })
+        //   })
+        //   .catch(error => {
+        //     console.log(error.code)
+        //     this.errorSignUp(error)
+        //     this.setState({ password: '', isLoading: false })
+        //   })
+        
+        this.props.processSignup({ email, password })
         .then(user => {
-          console.log(user)
-          this.setState({ password: '', loading: false })
+          if (user) {
+            this.navigate('Home');
+          } else {
+            this.setState(prevState => ({ isLoading: !prevState.isLoading }));
+          }
         })
         .catch(error => {
-          console.log(error.code)
-          this.errorSignUp(error)
-          this.setState({ password: '', loading: false })
+          this.getMessageByError(error)
         })
-    }
+      }
 
   }
 
@@ -105,26 +119,26 @@ export default class SignUp extends Component {
 
 
   render() {
-    let { loading } = this.state;
+    let { isLoading } = this.state;
     // alert(JSON.stringify(this.state))
     return (
       <KeyboardAvoidingView
         style={styles.container}
         behavior='height'>
 
-        <View style={[styles.form, styles.formSignUp]}>
+        <View style={[styles.formSignUp, styles.form]}>
           <Image
             source={logo}
             style={styles.logo}
-            width={120}
-            height={120} />
+            width={75}
+            height={75} />
           <View style={styles.inputContainer}>
             <MyInput
               label={strings.USERNAME_LABEL}
               placeholder={strings.USERNAME_PLACEHOLDER}
               textContentType='username'
               errorMessage={this.state.errorMessageUsername}
-              leftIcon={<Icon name='user' size={24} color='gray' />}
+              leftIcon={<Icon style={styles.containerIcon} name='user' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('username', value.trim())}
               value={this.state.username} />
             <MyInput
@@ -132,7 +146,7 @@ export default class SignUp extends Component {
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
               errorMessage={this.state.errorMessageEmail}
-              leftIcon={<Icon name='envelope' size={24} color='gray' />}
+              leftIcon={<Icon style={styles.containerIcon} name='envelope' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('email', value.trim())}
               value={this.state.email} />
 
@@ -142,7 +156,7 @@ export default class SignUp extends Component {
               textContentType='password'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessagePassword}
-              leftIcon={<Icon name='lock' size={24} color='gray' />}
+              leftIcon={<Icon style={styles.containerIcon} name='lock' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('password', value.trim())}
               value={this.state.password}
               rightIcon={
@@ -156,7 +170,7 @@ export default class SignUp extends Component {
               textContentType='password'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessageConfirmPassword}
-              leftIcon={<Icon name='lock' size={24} color='gray' />}
+              leftIcon={<Icon style={styles.containerIcon} name='lock' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('confirmPassword', value.trim())}
               value={this.state.confirmPassword}
               rightIcon={
@@ -168,14 +182,14 @@ export default class SignUp extends Component {
           </View>
         </View>
 
-        <View style={styles.buttonLinkContainer}>
+        <View style={styles.buttonContainer}>
           <MyButton
             title={strings.SIGNUP1}
             onPress={this.handleSignUpPress}
-            loading={loading} />
+            loading={isLoading} />
         </View>
 
-        <View style={styles.signupContainer}>
+        <View style={[styles.signupContainer, styles.containerNavigate]}>
           <Text style={[styles.text, { marginHorizontal: 10 }]}>{strings.HAVE}</Text>
           <TouchableOpacity
             onPress={() => { this.navigate("LogIn") }}>
@@ -186,3 +200,5 @@ export default class SignUp extends Component {
     )
   }
 }
+
+export default connect(null, { processSignup })(SignUp);

@@ -107,7 +107,6 @@ export default class MyFlatList extends Component<props> {
         </MyOverlay>
         <FlatList
           {...this.props}
-          data
           renderItem={({ item }) => this.renderItem(item)}
           keyExtractor={({ id, title }) => id + title} />
       </View>

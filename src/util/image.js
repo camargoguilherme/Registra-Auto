@@ -1,6 +1,7 @@
 import ImagePicker from 'react-native-image-picker';
 import Permissions from 'react-native-permissions';
 import RNFS from 'react-native-fs';
+import constants from '../config/constants';
 // import { storage } from 'react-native-firebase';
 // import { getUser, setUser } from './ApiServices';
 
@@ -32,7 +33,7 @@ selectPhotoTapped = async (cb) => {
 uploadImage = async (data) => {
   let url = await this.takeSnapshot(data.data)
   //console.log('result', result)
-  return { id: Date.now(), url: url}
+  return { id: `${Date.now()}`, url: url}
 }
 
 
@@ -100,8 +101,8 @@ takeSnapshot = async (base64) => {
     console.log('takeSnapshot:mkdir', path);
     RNFS.mkdir(path);
   }
-
-  let pathFile = `${path}/${Date.now()}.jpeg`;
+  
+  let pathFile = (constants.IS_ANDROID ? 'file://' : '' ) + `${path}/${Date.now()}.jpeg`;
   try {
     await RNFS.writeFile(pathFile, base64, 'base64');
     return pathFile

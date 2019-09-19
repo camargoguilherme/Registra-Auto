@@ -2,54 +2,88 @@ import firebase from 'react-native-firebase';
 import { Alert } from 'react-native';
 import strings from '../config/strings';
 
-export const USER_LOGIN_SUCESS = 'USER_LOGIN';
+import {
+  USER_LOGIN_SUCESS,
+  USER_LOGIN_ERROR,
+  USER_SIGNUP_SUCESS,
+  USER_SIGNUP_ERROR,
+  USER_LOGOUT_SUCESS,
+  USER_LOGOUT_ERROR
+} from '../actions/types';
 
 const userLoginSucess = user => ({
   type: USER_LOGIN_SUCESS,
   user
 });
 
-export const USER_LOGOUT = 'USER_LOGOUT';
+const userLoginError = error => ({
+  type: USER_LOGIN_ERROR,
+  error
+});
 
-const userLogout = () => ({
-  type: USER_LOGOUT,
-})
+const userSignupSucess = user => ({
+  type: USER_SIGNUP_SUCESS,
+  user
+});
 
-export const processLogin = ({email, password}) => dispatch => {
+const userSignupError = error => ({
+  type: USER_SIGNUP_ERROR,
+  error
+});
+
+const userLogoutSucess = () => ({
+  type: USER_LOGOUT_SUCESS,
+});
+
+const userLogoutError = error => ({
+  type: USER_LOGOUT_ERROR,
+  error
+});
+
+export const processLogin = ({ email, password }) => dispatch => {
   return firebase
-  .auth()
-  .signInWithEmailAndPassword(email, password)
-  .then(user => {
-    const action = userLoginSucess(user);
-    dispatch(action);
-    return user;
-  })
- .catch(error => {
-    if(error.code == "auth/user-not-found") {
-      return new Promise((resolve, reject) => {
-        Alert.alert(
-          strings.USER_NOT_FOUND,
-          "Deseja criar um novo usuário?",
-          [{
-            text: 'Não',
-            onPress: () => {
-              resolve();
-            }
-          }, {
-            text: 'Sim',
-            onPress: () => {
-              firebase
-                .auth()
-                .createUserWithEmailAndPassword(email, password)
-                .then(resolve)
-                .catch(reject)
-            }
-          }],
-          { cancelable: false }
-        );
-      })
-    }
-    return Promise.reject(error);
-  })
- 
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then(user => {
+      const action = userLoginSucess(user);
+      dispatch(action);
+      return user;
+    })
+    .catch(error => {
+      const action = userLoginError(error);
+      dispatch(action);
+      return Promise.reject(error);
+    })
+}
+
+export const processSignup = ({ email, password }) => dispatch => {
+  return firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(user => {
+      const action = userSignupSucess(user);
+      dispatch(action);
+      return user;
+    })
+    .catch(error => {
+      const action = userSignupError(error);
+      dispatch(action);
+      return Promise.reject(error);
+    })
+}
+
+export const processLogout = () => dispatch => {
+  return firebase
+    .auth()
+    .signOut()
+    .then( () =>{
+      const action = userLogoutSucess();
+      dispatch(action);
+      return
+    })
+    .catch(error => {
+      const action = userLogoutError(error);
+      dispatch(action);
+      return Promise.reject(error);
+    })
 }

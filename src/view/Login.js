@@ -8,7 +8,6 @@ import {
   Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import firebase from 'react-native-firebase';
 
 import { connect } from 'react-redux';
 import { processLogin } from '../actions';
@@ -47,6 +46,9 @@ class Login extends Component {
       case "auth/invalid-email":
         this.setState(prevState => ({ errorMessageEmail: strings.INVALID_EMAIL, isLoading: !prevState.isLoading }));
         break;
+      case "auth/weak-password":
+        this.setState(prevState => ({ errorMessageEmail: strings.INVALID_EMAIL, isLoading: !prevState.isLoading }));
+        break;
       default:
         // return "Erro desconhecido.";
         console.log(code, message)
@@ -59,30 +61,23 @@ class Login extends Component {
 
   handleLoginPress = () => {
     let { email, password } = this.state;
-    this.setState(prevState => ({
+    this.setState({
       errorMessageEmail: !email ? strings.EMAIL_MESSAGE : '',
       errorMessagePassword: !password ? strings.PASSWORD_MESSAGE : '',
-      isLoading: !prevState.isLoading
-    }));
+    });
 
     if (email.length > 0 && password.length > 0) {
+      this.setState(prevState => ({ isLoading: !prevState.isLoading }));
+
       this.props.processLogin({ email, password })
         .then(user => {
-
           if (user) {
             this.navigate('Home');
           } else {
-
-            this.setState({
-              isLoadinggg: false,
-              message: '',
-            })
+            this.setState(prevState => ({ isLoading: !prevState.isLoading }));
           }
         })
         .catch(error => {
-          this.setState({
-            isLoadinggg: false,
-          });
           this.getMessageByError(error)
         })
     }
@@ -122,7 +117,7 @@ class Login extends Component {
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
               errorMessage={this.state.errorMessageEmail}
-              leftIcon={<Icon name='envelope' size={24} color='gray' />}
+              leftIcon={<Icon style={styles.containerIcon} name='envelope' size={24} color='gray' />}
               onChangeText={(text) => this.onChangeHandler('email', text)}
               value={this.state.email} />
 
@@ -132,7 +127,7 @@ class Login extends Component {
               textContentType='password'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessagePassword}
-              leftIcon={<Icon name='lock' size={24} color='gray' />}
+              leftIcon={<Icon style={styles.containerIcon} name='lock' size={24} color='gray' />}
               onChangeText={(text) => this.onChangeHandler('password', text)}
               value={this.state.password}
               rightIcon={
@@ -142,24 +137,28 @@ class Login extends Component {
             />
           </View>
         </View>
-        <View style={styles.buttonLinkContainer}>
+        <View style={styles.buttonContainer}>
           <MyButton
             title={strings.LOGIN}
             onPress={this.handleLoginPress}
             loading={isLoading}
           />
-
-          <TouchableOpacity style={styles.link}
-            onPress={() => { this.navigate("Forgot") }}>
-            <Text style={styles.textUnderline}>{strings.FORGOT}</Text>
-          </TouchableOpacity>
         </View>
         <View style={styles.signupContainer}>
-          <Text style={[styles.text, { marginHorizontal: 10 }]}>{strings.DONT_HAVE}</Text>
-          <TouchableOpacity
-            onPress={() => { this.navigate("SignUp") }}>
-            <Text style={styles.textUnderline}>{strings.SIGNUP2}</Text>
-          </TouchableOpacity>
+          <View style={styles.containerNavigate}>
+            <TouchableOpacity style={styles.link}
+              onPress={() => { this.navigate("Forgot") }}>
+              <Text style={styles.textUnderline}>{strings.FORGOT}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.containerNavigate}>
+            <Text style={[styles.text, { marginHorizontal: 10 }]}>{strings.DONT_HAVE}</Text>
+            <TouchableOpacity
+              onPress={() => { this.navigate("SignUp") }}>
+              <Text style={styles.textUnderline}>{strings.SIGNUP2}</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
       </KeyboardAvoidingView>
     )

@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
 
   logo: {
     height: metrics.DEVICE_HEIGHT * 0.2,
-    marginBottom: 10,
+    marginBottom: 5,
     resizeMode: 'contain',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -33,11 +33,11 @@ export const styles = StyleSheet.create({
   },
 
   formLogin: {
-    height: metrics.DEVICE_HEIGHT * 0.55,
+    height: metrics.DEVICE_HEIGHT * 0.6,
   },
 
   formSignUp: {
-    height: metrics.DEVICE_HEIGHT * 0.78,
+    height: metrics.DEVICE_HEIGHT * 0.80,
   },
 
   formForgot: {
@@ -46,8 +46,6 @@ export const styles = StyleSheet.create({
 
   inputContainer: {
     flex: 1,
-    height: metrics.DEVICE_HEIGHT * 0.2,
-    marginVertical: 5,
   },
 
   text: {
@@ -61,21 +59,20 @@ export const styles = StyleSheet.create({
     textDecorationLine: "underline"
   },
 
-  buttonLinkContainer: {
+  buttonContainer: {
     flexDirection: 'column',
     marginTop: -45,
-    marginHorizontal: 5,
     width: metrics.DEVICE_WIDTH * 0.75,
-    height: 95,
     alignSelf: 'center',
     alignItems: 'flex-end',
+    marginVertical: 10
   },
 
   signupContainer: {
-    flexDirection: 'row',
     justifyContent: 'center',
     textAlign: 'center',
-    padding: 10
+    padding: 10,
+    bottom: -45,
   },
 
   link: {
@@ -85,6 +82,16 @@ export const styles = StyleSheet.create({
 
   title: {
     fontSize: 32,
+  },
+
+  containerNavigate: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  containerIcon:{
+    marginLeft: 0,
+    paddingHorizontal: 0
   },
 
   // Styles MyButton
@@ -103,14 +110,15 @@ export const styles = StyleSheet.create({
   // Styles MyInput
   containerStyleMyInput: {
     height: 75,
-    marginVertical: 5,
+    marginVertical: 10,
     paddingHorizontal: 0,
   },
 
   inputContainerStyleMyInput: {
     width: '100%',
-    height: 50,
-    paddingHorizontal: 10,
+    height: 45,
+    paddingRight: 10,
+    paddingVertical: 0,
     alignItems: 'center',
     borderColor: 'gray',
     borderWidth: StyleSheet.hairlineWidth * 5,
@@ -118,8 +126,15 @@ export const styles = StyleSheet.create({
   },
 
   leftIconContainerStyleMyInput: {
+    width: 50,
+    height: '100%',
+    margin: 0,
+    marginLeft: 0,
     marginRight: 10,
-    alignContent: "space-around"
+    paddingHorizontal: 0,
+    paddingLeft: 0,
+    alignContent: "space-around",
+    backgroundColor: colors.BACKGROUND
   },
 
   labelStyleMyInput: {
@@ -291,7 +306,7 @@ export const styles = StyleSheet.create({
   },
 
   containerStyleMyPicker: {
-    height: 50,
+    height: 45,
     alignItems: 'center',
     borderColor: 'gray',
     borderWidth: StyleSheet.hairlineWidth * 5,

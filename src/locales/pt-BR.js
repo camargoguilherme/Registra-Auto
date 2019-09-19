@@ -18,6 +18,8 @@ export default string = {
   CONFIRMPASSWORD_LABEL: 'Confirme a senha',
   LICENSE_PLATE_LABEL: 'Placa',
   MODEL_LABEL: 'Modelo',  
+  TYPE_LABEL: 'Tipo',
+  COLOR_LABEL: 'Cor',
   
   USERNAME_PLACEHOLDER: 'Usuário',
   EMAIL_PLACEHOLDER: 'E-mail: user@provider.com',
@@ -26,17 +28,19 @@ export default string = {
   LICENSE_PLATE_PLACEHOLDER: 'Placa do veículo',
   MODEL_PLACEHOLDER: 'Modelo do veículo',
 
-  USERNAME_MESSAGE: 'Campo usuário é obrigatório',
-  EMAIL_MESSAGE: 'Campo email é obrigatório',
-  PASSWORD_MESSAGE: 'Campo senha é obrigatório',
-  CONFIRMPASSWORD_MESSAGE: 'Campo confirme a senha é obrigatório',
-  LICENSE_PLATE_MESSAGE: 'Campo confirme a senha é obrigatório',
+  USERNAME_MESSAGE: 'Informe um nome de usuário',
+  EMAIL_MESSAGE: 'Informe um email',
+  PASSWORD_MESSAGE: 'Informe uma senha',
+  CONFIRMPASSWORD_MESSAGE: 'Confirme à senha',
+  LICENSE_PLATE_MESSAGE: 'Informe a placa do veículo',
+  PASSWORD_NOT_MATCH_MESSAGE: 'Senhas não coincidem',
 
   LISTING: 'Listagem',
   REGISTER: 'Cadastrar',
-  TYPE: 'Tipo',
   DATE_TIME: 'Data',
+
+  WEAK_PASSWORD: 'Senha fraca (min. 6 caracteres)',
   USER_NOT_FOUND: 'E-mail não encontrado',
   WRONG_PASSWORD: 'Senha errada',
-  INVALID_EMAIL: 'O endereço de email está mal formatado'
+  INVALID_EMAIL: 'Formato de email não aceito (ex.: user@provider.com)'
 }

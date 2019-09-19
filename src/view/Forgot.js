@@ -118,13 +118,13 @@ export default class Login extends Component {
 
           </View>
         </View>
-        <View style={styles.buttonLinkContainer}>
+        <View style={styles.buttonContainer}>
           <MyButton
             title={strings.SEND}
             onPress={this.handleLoginPress}
             loading={loading} />
         </View>
-        <View style={styles.signupContainer}>
+        <View style={[styles.signupContainer, styles.containerNavigate]}>
           <TouchableOpacity
             onPress={() => { this.navigate("LogIn") }}>
             <Text style={styles.textUnderline}>{strings.LOGIN}</Text>

@@ -32,6 +32,7 @@ const AppStackNavigator = createStackNavigator({
 }, {
   defaultNavigationOptions: {
     headerTintColor: 'rgba(255, 255, 255, 0.4)',
+    
     headerStyle: {
       backgroundColor: colors.WHITE,
       alignContent: 'center'

@@ -1,0 +1,14 @@
+// Types actions USER
+
+export const USER_LOGIN_ERROR = 'USER_LOGIN_ERROR';
+export const USER_LOGIN_SUCESS = 'USER_LOGIN_SUCESS';
+export const USER_SIGNUP_ERROR = 'USER_SIGNUP_ERROR';
+export const USER_SIGNUP_SUCESS = 'USER_SIGNUP_SUCESS';
+export const USER_LOGOUT_SUCESS = 'USER_LOGOUT_SUCESS';
+export const USER_LOGOUT_ERROR = 'USER_LOGOUT_ERROR';
+
+// Types actions 
+export const SET_FIELD = 'SET_FIELD';
+export const SERIE_SAVED_SUCCESS = 'SERIE_SAVED_SUCCESS';
+export const SET_ALL_FIELDS = 'SET_ALL_FIELDS';
+export const RESET_FORM = 'RESET_FORM';

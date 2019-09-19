@@ -18,6 +18,8 @@ export default string = {
   CONFIRMPASSWORD_LABEL: 'Confirm Password',
   LICENSE_PLATE_LABEL: 'License plate',
   MODEL_LABEL: 'Model',
+  TYPE_LABEL: 'Type',
+  COLOR_LABEL: 'Color',
   
   USERNAME_PLACEHOLDER: 'Username',
   EMAIL_PLACEHOLDER: 'E-mail: user@provider.com',
@@ -26,18 +28,20 @@ export default string = {
   LICENSE_PLATE_PLACEHOLDER: 'Vehicle License plate',
   MODEL_PLACEHOLDER: 'Vehicle Model',
 
-  USERNAME_MESSAGE: '',
-  EMAIL_MESSAGE: '',
-  PASSWORD_MESSAGE: '',
-  CONFIRMPASSWORD_MESSAGE: '',
-  LICENSE_PLATE_MESSAGE: '',
+  USERNAME_MESSAGE: 'Enter a username',
+  EMAIL_MESSAGE: 'Enter an email',
+  PASSWORD_MESSAGE: 'Enter a password',
+  CONFIRMPASSWORD_MESSAGE: 'Confirm the Password',
+  LICENSE_PLATE_MESSAGE: 'Enter vehicle license plate',
+  PASSWORD_NOT_MATCH_MESSAGE: 'Password and confirm password do not match',
 
   LISTING: 'Listing',
   REGISTER: 'Register',
-  TYPE: 'Type',
   DATE_TIME: 'Date',
+
+  WEAK_PASSWORD: 'Weak password',
   USER_NOT_FOUND: 'E-mail not found',
   WRONG_PASSWORD: 'Wrong password',
-  INVALID_EMAIL: 'The email address is badly formated'
+  INVALID_EMAIL: 'The email address is badly formated (ex.: user@provider.com)'
 
 }

@@ -13,11 +13,11 @@ export default class MyPicker extends Component<props> {
 
   }
   render() {
-    let { data, otherProps } = this.props;
+    let { data, label, otherProps } = this.props;
 
     return (
       <View style={styles.containerMyPicker}>
-        <Text style={styles.labelStyleMyPicker}>{strings.TYPE_LABEL}</Text>
+        <Text style={styles.labelStyleMyPicker}>{label}</Text>
         <Picker
           style={styles.containerStyleMyPicker}
           {...otherProps}>

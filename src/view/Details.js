@@ -76,7 +76,7 @@ export default class Details extends Component {
 			data: [...DATA],
 			errorMessagePlate: '',
 			errorMessagePassword: '',
-			loading: false,
+			isLoading: false,
 			rightIcon: 'eye-slash',
 			isPassword: true
 		}
@@ -90,13 +90,11 @@ export default class Details extends Component {
 	}
 
 	render() {
-		let { loading, type, now, plate, data} = this.state;
+		let { isLoading, type, now, plate } = this.state;
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.BACKGROUND }}>
 				<View style={[styles.formDetails, styles.form, { flexDirection: 'column' }]}>
-					<MyImagesSlider
-						data={data}
-					/>
+					<MyImagesSlider />
 					<View style={{ flexDirection: 'row' }}>
 						<View style={[styles.inputContainer]}>
 							<MyInput
@@ -108,11 +106,13 @@ export default class Details extends Component {
 								value={plate} />
 
 							<MyPicker
+								label={strings.TYPE_LABEL}
+								data={dataType}
 								selectedValue={type}
 								onValueChange={(itemValue, itemIndex) =>
 									this.setState({ type: itemValue })
 								}
-								data={dataType} />
+							/>
 						</View>
 						<View style={styles.inputContainer}>
 							<MyInput
@@ -124,16 +124,18 @@ export default class Details extends Component {
 								value={this.state.model} />
 
 							<MyPicker
+								label={strings.COLOR_LABEL}
+								data={dataType}
 								selectedValue={type}
 								onValueChange={(itemValue, itemIndex) =>
 									this.setState({ type: itemValue })
 								}
-								data={dataType} />
+							/>
 						</View>
 					</View>
 					<View style={styles.inputContainer}>
 						<MyInput
-							containerStyle={{ marginVertical: 35 }}
+							containerStyle={{ marginVertical: 10 }}
 							inputContainerStyle={{ marginHorizontal: 0, paddingHorizontal: 0 }}
 							label={strings.DATE_TIME}
 							editable={false}
@@ -143,11 +145,11 @@ export default class Details extends Component {
 							icon={{ name: 'envelope', size: 24, color: 'gray' }} />
 					</View>
 				</View>
-				<View style={[styles.buttonLinkContainer, { flexDirection: 'row' }]}>
+				<View style={[styles.buttonContainer, { flexDirection: 'row' }]}>
 					<MyButton
 						title={strings.SAVE}
 						onPress={this.handleLoginPress}
-						loading={loading}
+						loading={isLoading}
 						containerStyle={styles.button}
 						buttonStyle={{ backgroundColor: colors.SUCCESS }} />
 				</View>

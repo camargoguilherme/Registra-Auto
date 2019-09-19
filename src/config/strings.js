@@ -21,6 +21,8 @@ export default string = {
   LICENSE_PLATE_LABEL: translate('LICENSE_PLATE_LABEL'),
   MODEL_LABEL: translate('MODEL_LABEL'),
   DATE_HOUR_LABEL: translate('DATE_HOUR_LABEL'),
+  TYPE_LABEL: translate('TYPE_LABEL'),
+  COLOR_LABEL: translate('COLOR_LABEL'),
 
   USERNAME_PLACEHOLDER: translate('USERNAME_PLACEHOLDER'),
   EMAIL_PLACEHOLDER: translate('EMAIL_PLACEHOLDER'),
@@ -34,11 +36,13 @@ export default string = {
   EMAIL_MESSAGE: translate('EMAIL_MESSAGE'),
   PASSWORD_MESSAGE: translate('PASSWORD_MESSAGE'),
   CONFIRMPASSWORD_MESSAGE: translate('CONFIRMPASSWORD_MESSAGE'),
+  PASSWORD_NOT_MATCH_MESSAGE: translate('PASSWORD_NOT_MATCH_MESSAGE'),
 
   LISTING: translate('LISTING'),
   REGISTER: translate('REGISTER'),
-  TYPE: translate('TYPE'),
   DATE_TIME: translate('DATE_TIME'),
+
+  WEAK_PASSWORD: translate('WEAK_PASSWORD'),
   USER_NOT_FOUND: translate('USER_NOT_FOUND'),
   WRONG_PASSWORD: translate('WRONG_PASSWORD'),
   INVALID_EMAIL: translate('INVALID_EMAIL')
