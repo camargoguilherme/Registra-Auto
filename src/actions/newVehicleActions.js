@@ -2,10 +2,10 @@ import firebase from 'react-native-firebase';
 
 import {
   SET_FIELD,
-  SERIE_SAVED_SUCCESS,
+  VEHICLE_SAVED_SUCCESS,
   SET_ALL_FIELDS,
   RESET_FORM
-} from '../actions/types';
+} from './types';
 
 
 
@@ -18,16 +18,16 @@ export const setField = (field, value) => {
 }
 
 
-export const serieSavedSuccess = () => {
+export const vehicleSavedSuccess = () => {
   return {
-    type: SERIE_SAVED_SUCCESS
+    type: VEHICLE_SAVED_SUCCESS
   }
 }
 
 
-export const setAllFields = serie => ({
+export const setAllFields = vehicle => ({
   type: SET_ALL_FIELDS,
-  serie: serie
+  vehicle: vehicle
 });
 
 
@@ -35,16 +35,16 @@ export const resetForm = () => ({
   type: RESET_FORM
 })
 
-export const saveSerie = serie => {
+export const saveVehicle = vehicle => {
   const { currentUser } = firebase.auth();
 
   return async dispatch => {
     await firebase
       .database()
-      .ref(`/users/${currentUser.uid}/series`)
-      .push(serie);
+      .ref(`/users/${currentUser.uid}/vehicles`)
+      .push(vehicle);
 
-    dispatch(serieSavedSuccess());
+    dispatch(vehicleSavedSuccess());
   }
 }
 

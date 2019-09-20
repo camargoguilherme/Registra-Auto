@@ -7,8 +7,9 @@ export const USER_SIGNUP_SUCESS = 'USER_SIGNUP_SUCESS';
 export const USER_LOGOUT_SUCESS = 'USER_LOGOUT_SUCESS';
 export const USER_LOGOUT_ERROR = 'USER_LOGOUT_ERROR';
 
-// Types actions 
+// Types actions Vehicle
 export const SET_FIELD = 'SET_FIELD';
-export const SERIE_SAVED_SUCCESS = 'SERIE_SAVED_SUCCESS';
+export const VEHICLE_SAVED_SUCCESS = 'VEHICLE_SAVED_SUCCESS';
 export const SET_ALL_FIELDS = 'SET_ALL_FIELDS';
 export const RESET_FORM = 'RESET_FORM';
+export const SET_VEHICLES = 'SET_VEHICLES';

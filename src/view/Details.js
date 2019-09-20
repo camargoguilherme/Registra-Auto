@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import {
 	View,
-	Picker
-
+	Picker,
+	Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import firebase from 'react-native-firebase';
 
 import MyPicker from '../components/MyPicker';
 import MyInput from '../components/MyInput';
@@ -18,79 +16,51 @@ import strings from '../config/strings';
 import colors from '../config/colors';
 import time from '../util/time';
 
-import logo from '../assets/images/logo.png';
 
 const dataType = [
+	{ label: 'SELECIONE' },
 	{ label: 'Carro', value: 'carro' },
 	{ label: 'Moto', value: 'moto' },
 	{ label: 'Pickup', value: 'pickup' },
 	{ label: 'Utilitario', value: 'utilitario' },
 ]
 
-const DATA = [
-	{
-		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chevrolet_3100.JPG/800px-Chevrolet_3100.JPG'
-	},
-	{
-		id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Chevrolet_Astra_2.0_GLS_2006_%2816088287360%29.jpg/800px-Chevrolet_Astra_2.0_GLS_2006_%2816088287360%29.jpg'
-	},
-	{
-		id: '58694a0f-3da1-471f-bd96-145571e29d72',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/2019_Chevrolet_Blazer_RS_3.6L%2C_front_8.18.19.jpg/1280px-2019_Chevrolet_Blazer_RS_3.6L%2C_front_8.18.19.jpg'
-	},
-	{
-		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba1',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Chevrolet_car_in_Avenida_Paulista.jpg/800px-Chevrolet_car_in_Avenida_Paulista.jpg'
-	},
-	{
-		id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f64',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Chevrolet_C-20_Crew_Cab_1993_%2816844862924%29.jpg/800px-Chevrolet_C-20_Crew_Cab_1993_%2816844862924%29.jpg'
-	},
-	{
-		id: '58694a0f-3da1-471f-bd96-145571e29d75',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/2019_Chevrolet_Camaro_2SS_6.2L_front_3.16.19.jpg/1024px-2019_Chevrolet_Camaro_2SS_6.2L_front_3.16.19.jpg'
-	},
-	{
-		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28b6',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Chevrolet_Opala_Caravan_late.jpg/1280px-Chevrolet_Opala_Caravan_late.jpg'
-	},
-	{
-		id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f67',
-		url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Chevrolet_Celta_2013.jpg/800px-Chevrolet_Celta_2013.jpg'
-	},
-	{
-		id: '58694a0f-3da1-471f-bd96-145571e29d78',
-		url: 'https://upload.wikimedia.org/wikipedia/pt/2/2e/Chevette_1985.png'
-	},
-];
+import { connect } from 'react-redux';
+import { setField, saveVehicle, setAllFields, resetForm, } from '../actions';
 
-export default class Details extends Component {
+class Details extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			plate: '',
-			model: '',
 			now: null,
-			data: [...DATA],
+			type: '',
+			model: '',
 			errorMessagePlate: '',
 			errorMessagePassword: '',
 			isLoading: false,
 			rightIcon: 'eye-slash',
-			isPassword: true
+
 		}
 		setInterval(() => {
 			this.setState({ now: time.dateHourToString() })
 		}, 1000)
 	}
 
-	handleChange = (field, value) => {
-		this.setState({ [field]: value })
+	componentDidMount() {
+
+		const { navigation, setAllFields, resetForm } = this.props;
+		const { params } = navigation.state;
+
+		if (params && params.editItem) {
+			setAllFields(params.editItem)
+		} else {
+			resetForm();
+		}
 	}
 
 	render() {
-		let { isLoading, type, now, plate } = this.state;
+		let { isLoading, now } = this.state;
+		const { vehicleForm, setField, saveVehicle, navigation } = this.props;
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.BACKGROUND }}>
 				<View style={[styles.formDetails, styles.form, { flexDirection: 'column' }]}>
@@ -101,17 +71,21 @@ export default class Details extends Component {
 								label={strings.LICENSE_PLATE_LABEL}
 								placeholder={strings.LICENSE_PLATE_PLACEHOLDER}
 								errorMessage={this.state.errorMessageEmail}
+								autoCapitalize='characters'
 								icon={{ name: 'envelope', size: 24, color: 'gray' }}
-								onChangeText={text => this.handleChange('plate', text)}
-								value={plate} />
+								onChangeText={itemValue => setField('plate', itemValue)}
+								value={vehicleForm.plate} />
 
 							<MyPicker
 								label={strings.TYPE_LABEL}
 								data={dataType}
-								selectedValue={type}
-								onValueChange={(itemValue, itemIndex) =>
-									this.setState({ type: itemValue })
-								}
+								mode='dropdown'
+								onValueChange={(itemValue, itemPosition) => {
+									this.setState({type: itemValue})
+									//setField('type', itemValue)
+									alert(itemValue)
+								}}
+								selectedValue={this.state.type}
 							/>
 						</View>
 						<View style={styles.inputContainer}>
@@ -120,16 +94,16 @@ export default class Details extends Component {
 								placeholder={strings.MODEL_PLACEHOLDER}
 								errorMessage={this.state.errorMessageEmail}
 								icon={{ name: 'envelope', size: 24, color: 'gray' }}
-								onChangeText={text => this.handleChange('model', text)}
-								value={this.state.model} />
+								onChangeText={itemValue => setField('model', itemValue)}
+								value={vehicleForm.model}
+							/>
 
 							<MyPicker
 								label={strings.COLOR_LABEL}
 								data={dataType}
-								selectedValue={type}
-								onValueChange={(itemValue, itemIndex) =>
-									this.setState({ type: itemValue })
-								}
+								mode='dialog'
+								selectedValue={vehicleForm.color}
+								onValueChange={(itemValue, itemPosition) => alert(itemValue) /*setField('color', itemValue)*/}
 							/>
 						</View>
 					</View>
@@ -139,7 +113,8 @@ export default class Details extends Component {
 							inputContainerStyle={{ marginHorizontal: 0, paddingHorizontal: 0 }}
 							label={strings.DATE_TIME}
 							editable={false}
-							placeholder={now}
+							value={vehicleForm.entry_date || now}
+							onChangeText={itemValue => setField('entry_date', itemValue)}
 							inputStyle={{ textAlign: 'center' }}
 							errorMessage={this.state.errorMessageEmail}
 							icon={{ name: 'envelope', size: 24, color: 'gray' }} />
@@ -148,7 +123,18 @@ export default class Details extends Component {
 				<View style={[styles.buttonContainer, { flexDirection: 'row' }]}>
 					<MyButton
 						title={strings.SAVE}
-						onPress={this.handleLoginPress}
+						onPress={async () => {
+							this.setState({ isLoading: true })
+
+							try {
+								await saveVehicle(vehicleForm);
+							} catch (error) {
+								Alert.alert('Erro', error.message);
+							} finally {
+								this.setState({ isLoading: false })
+							}
+
+						}}
 						loading={isLoading}
 						containerStyle={styles.button}
 						buttonStyle={{ backgroundColor: colors.SUCCESS }} />
@@ -157,3 +143,18 @@ export default class Details extends Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+	return ({
+		vehicleForm: state.vehicleForm
+	})
+}
+
+const mapDispatchToProps = {
+	setField,
+	saveVehicle,
+	setAllFields,
+	resetForm
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details);

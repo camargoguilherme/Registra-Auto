@@ -15,19 +15,10 @@ export default class MyFlatList extends Component<props> {
     super(props);
 
     this.state = {
-      loading: false,
-      data: [],
-      error: null,
       isVisible: false,
-      itemSelected: {
-        id: '',
-        name: 'TESTE TESTE',
-        placa: 'AAA-1234',
-        entrada: '',
-        status: '',
-        url: ''
-      }
+      itemSelected: {}
     };
+
     this.arrayholder = [...this.props.data];
     this.navigate = this.props.navigation.navigate;
   }
@@ -88,7 +79,7 @@ export default class MyFlatList extends Component<props> {
             <View style={styles.containerFooterOverLay}>
               <MyButton
                 title={strings.EDIT}
-                onPress={() => { this.setModalVisibleInvisivle(); this.navigate('Details') }}
+                onPress={() => { this.setModalVisibleInvisivle(); this.navigate('Details', { editItem: itemSelected }) }}
                 containerStyle={styles.buttonOverlay}
                 buttonStyle={{ backgroundColor: colors.WARNING }} />
               <MyButton
