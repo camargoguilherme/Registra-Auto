@@ -5,10 +5,14 @@ import {
 
 import { Input, InputProps } from 'react-native-elements';
 import { styles } from '../config/styles'
+import time from '../util/time';
 
 type props = InputProps;
 
 export default class MyInput extends Component<props>{
+  constructor(props) {
+    super(props);
+  }
 
   onChangeText = (text) => {
     this.props.onChangeText(text)
@@ -24,7 +28,8 @@ export default class MyInput extends Component<props>{
         inputContainerStyle={[styles.inputContainerStyleMyInput, inputContainerStyle]}
         leftIconContainerStyle={[styles.leftIconContainerStyleMyInput, leftIconContainerStyle]}
         labelStyle={[styles.labelStyleMyInput, labelStyle]}
-        errorStyle={[styles.error, errorStyle]} 
+        errorStyle={[styles.error, errorStyle]}
+        on
         {...otherProps}
       />
     )

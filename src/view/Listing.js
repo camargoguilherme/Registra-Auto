@@ -7,7 +7,10 @@ import MyFlatList from '../components/MyFlatList';
 import { styles } from '../config/styles';
 
 import { connect } from 'react-redux';
-import { watchVehicles } from '../actions';
+import { watchVehicles, processUpload } from '../actions';
+
+import firebase from 'react-native-firebase';
+import MyButton from '../components/MyButton';
 
 class Listing extends Component {
   constructor(props) {
@@ -15,14 +18,17 @@ class Listing extends Component {
     this.state = {
       value: '',
       data: [],
+      vehicles: []
     }
     this.arrayholder = []
     this.navigate = this.props.navigation.navigate;
   }
 
   componentDidMount() {
-    this.props.watchVehicles();
-    this.props.vehicles && (this.arrayholder = [...this.props.vehicles ]);
+    const { watchVehicles } = this.props;
+    watchVehicles();
+    this.props.vehicles && (this.arrayholder = [...this.props.vehicles]);
+    console.log('componentDidMount', this.props.vehicles)
   }
 
   searchFilterFunction = text => {
@@ -30,7 +36,6 @@ class Listing extends Component {
     const newData = this.arrayholder.filter(item => {
       const itemData = `${item.name.toUpperCase()}${item.status.toUpperCase()}${item.placa.toUpperCase()}`;
       const textData = text.toUpperCase();
-
       return itemData.includes(textData);
     });
   };
@@ -41,7 +46,7 @@ class Listing extends Component {
       <View style={styles.container}>
         <MyFlatList
           style={styles.containerFlatList}
-          data={this.arrayholder}
+          data={this.props.vehicles || []}
           navigation={this.props.navigation}
           ListHeaderComponent={
             <MySearchBar
@@ -53,6 +58,7 @@ class Listing extends Component {
               containerStyle={styles.containerStyleMySearchBar}
             />}
         />
+
       </View>
     );
   }
@@ -60,10 +66,8 @@ class Listing extends Component {
 
 const mapStateToProps = state => {
   const { listVehicle } = state;
-
-  if (listVehicle === null) {
+  if (listVehicle == null)
     return { vehicles: listVehicle };
-  }
 
   const keys = Object.keys(listVehicle);
   const listVehicleWithId = keys.map(key => {
@@ -72,8 +76,8 @@ const mapStateToProps = state => {
   return { vehicles: listVehicleWithId };
 }
 
+const mapDispatchToProps = {
+  watchVehicles
+}
 
-export default connect(
-  mapStateToProps,
-  { watchVehicles }
-)(Listing);
+export default connect(mapStateToProps, mapDispatchToProps)(Listing);

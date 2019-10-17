@@ -2,6 +2,12 @@ import {
   createSwitchNavigator,
   createAppContainer
 } from 'react-navigation';
+import React, { Component } from 'react';
+
+import AsyncStorage from '@react-native-community/async-storage';
+
+import { connect } from 'react-redux';
+import { repairUser } from './src/actions'; 
 
 import { createStackNavigator } from 'react-navigation-stack';
 
@@ -11,6 +17,28 @@ import Forgot from './src/view/Forgot';
 import Home from './src/view/Home';
 import Details from './src/view/Details';
 import colors from './src/config/colors';
+
+class Routes extends Component {
+  constructor(props) {
+		super(props);
+  }
+  
+  async componentDidMount(){
+    const user = await AsyncStorage.getItem('@user');
+    let result = user ? { ...JSON.parse(user), signed: true } : { signed: false }
+    this.props.repairUser(result);
+  }
+
+  render(){
+    const { user } = this.props;
+    console.log('user', {...user});
+    console.log('signed', user.signed);
+    const Layout = AppSwitchNavigator(user.signed);
+    return(
+      <Layout />
+    )
+  }
+}
 
 const AppStackNavigator = createStackNavigator({
   Home: {
@@ -31,10 +59,9 @@ const AppStackNavigator = createStackNavigator({
   }
 }, {
   defaultNavigationOptions: {
-    headerTintColor: 'rgba(255, 255, 255, 0.4)',
     
     headerStyle: {
-      backgroundColor: colors.WHITE,
+      backgroundColor: colors.DEFAULT,
       alignContent: 'center'
     },
     headerTitleStyle: {
@@ -66,4 +93,17 @@ const AppSwitchNavigator = (signedIn) => {
   );
 }
 
-export default AppSwitchNavigator;
+const mapStateToProps = (state) => {
+	return ({
+    user: state.user,
+    signed: state.signed
+	})
+}
+
+const mapDispatchToProps = {
+	repairUser
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

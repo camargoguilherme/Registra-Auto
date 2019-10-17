@@ -1,11 +1,15 @@
 import {
-  SET_VEHICLES
+  SET_VEHICLES,
+  DELETE_VEHICLE
 } from '../actions/types';
 
-export default function(state = null, action) {
-  switch(action.type) {
+const INITIAL_STATE = [];
+
+export default function (state = INITIAL_STATE, action) {
+  switch (action.type) {
     case SET_VEHICLES:
-      console.log(action.vehicles);
+      return action.vehicles;
+    case DELETE_VEHICLE:
       return action.vehicles;
     default:
       return state;

@@ -1,22 +1,32 @@
 import firebase from 'react-native-firebase';
-import { SET_VEHICLES } from './types';
+import {
+  SET_VEHICLES,
+  SET_VEHICLES_ERROR
+} from './types';
 
 const setVehicles = vehicles => ({
   type: SET_VEHICLES,
   vehicles: vehicles
 })
 
-export const watchVehicles = () => {
-  const {currentUser} = firebase.auth();
+const setVehiclesError = error => ({
+  type: SET_VEHICLES_ERROR,
+  error: error
+})
 
+export const watchVehicles = () => {
   return dispatch => {
+    const { currentUser } = firebase.auth();
     firebase
       .database()
-      .ref(`/users/${currentUser.uid}/vehicles`)
+      .ref(`users/${currentUser.uid}`)
+      .child('vehicles')
       .on('value', snapshot => {
-        const vehicles = snapshot.val();
-        const action = setVehicles(vehicles);
-        dispatch(action);
+        console.log('watchVehicles: ', snapshot.val())
+        dispatch(setVehicles(snapshot.val()));
+      }, function (errorObject) {
+        console.log("The read failed: ", errorObjec);
+        dispatch(setVehiclesError(errorObjec))
       })
   }
 }

@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
   },
 
   containerStyleMyButton: {
-    flex: 1,
+    flex: 0.5,
     flexDirection: 'row',
   },
 
@@ -116,7 +116,7 @@ export const styles = StyleSheet.create({
 
   inputContainerStyleMyInput: {
     width: '100%',
-    height: 45,
+    height: metrics.INPUT_HEIGHT,
     paddingRight: 10,
     paddingVertical: 0,
     alignItems: 'center',
@@ -228,7 +228,7 @@ export const styles = StyleSheet.create({
   // Style GroupButtons
 
   containerStyleGroupButtons: {
-    height: 45
+    height: 30
   },
 
   buttonStyleGroupButtons: {

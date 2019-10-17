@@ -43,19 +43,13 @@ export default class MyFlatList extends Component<props> {
         </Image>
         <View style={styles.contentInfor}>
           <View style={styles.itemInfo}>
-            <Text style={styles.textPlaca}>{item.placa}</Text>
-            <Text style={styles.textModelo}>{item.name}</Text>
+            <Text style={styles.textPlaca}>{`${item.plate}`.toUpperCase()}</Text>
+            <Text style={styles.textModelo}>{`${item.model}`.toUpperCase()}</Text>
             <View style={styles.containerStatus}>
-              <Text style={styles.itemTitulo}>{item.entrada}</Text>
-              <Badge status="success" value={<Text style={styles.itemTitulo}>{item.status}</Text>} />
+              <Text style={styles.itemTitulo}>{item.entry_date}</Text>
+              <Badge status="success" value={<Text style={styles.itemTitulo}>{`${item.status}`.toUpperCase()}</Text>} />
             </View>
           </View>
-          {/* <TouchableOpacity
-            style={styles.buttonInfo}
-            onPress={() => { this.navigate('Details') }}
-            onLongPress={() => this.setState(prevState => ({ isVisible: !prevState.isVisible }))}>
-            <Text style={styles.textButton}>Details</Text>
-          </TouchableOpacity> */}
         </View>
       </TouchableOpacity>
     );
@@ -68,7 +62,7 @@ export default class MyFlatList extends Component<props> {
         <MyOverlay isVisible={isVisible}>
           <View style={styles.containerOverLay}>
             <View style={styles.containerHeadOverLay}>
-              <Text style={styles.textHeaderOverlay}>{itemSelected.name} - {itemSelected.placa}</Text>
+              <Text style={styles.textHeaderOverlay}> { itemSelected && `${itemSelected.model} - ${itemSelected.plate}`.toUpperCase()}</Text>
               <TouchableOpacity onPress={this.setModalVisibleInvisivle}>
                 <Icon name='close' size={30}/>
               </TouchableOpacity>

@@ -6,16 +6,16 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  id: '',
-  plate: '',
-  model: '',
-  color: 'SELECIONE',
-  type: 'SELECIONE',
-  entry_date: '',
+  id: null,
+  plate: null,
+  model: null,
+  color: null,
+  type: null,
+  entryDate: null,
   status: 'OPEN',
   images: [{
-    id: '',
-    url: ''
+    id: null,
+    url: null
   }]
 }
 
@@ -24,6 +24,7 @@ export default function (state = INITIAL_STATE, action) {
     case SET_FIELD:
       const clonedState = { ...state };
       clonedState[action.field] = action.value;
+      console.log('clonedState', action.field +': '+ action.value)
       return clonedState;
     case VEHICLE_SAVED_SUCCESS:
       return INITIAL_STATE;

@@ -36,6 +36,6 @@ const setLanguageToI18n = () => {
     : I18n.defaultLocale = 'en_US'
 }
 
-setLanguageToI18n()
+setLanguageToI18n();
 
 export const translate = key => I18n.t(key)

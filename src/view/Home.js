@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, KeyboardAvoidingView } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 
 import { styles } from '../config/styles';
@@ -20,8 +20,8 @@ export default class Home extends Component {
     this.updateIndex = this.updateIndex.bind(this)
   }
 
-  updateIndex(selectedIndex) {
-    this.setState({ selectedIndex })
+  updateIndex(index) {
+    this.setState({ selectedIndex: index })
   }
 
   renderScreen = (index) => {
@@ -45,7 +45,9 @@ export default class Home extends Component {
     const buttons = [translate('REGISTER'), translate('LISTING')]
     const { selectedIndex } = this.state
     return (
-      <View style={{ height: '100%', backgroundColor: colors.BACKGROUND }}>
+      <KeyboardAvoidingView 
+        style={{ height: '100%', backgroundColor: colors.BACKGROUND }}
+        behavior='padding'>
         <ButtonGroup
           onPress={this.updateIndex}
           selectedIndex={selectedIndex}
@@ -58,7 +60,7 @@ export default class Home extends Component {
         <View style={{ flex: 1 }}>
           {this.renderScreen(selectedIndex)}
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

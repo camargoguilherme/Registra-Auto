@@ -8,7 +8,9 @@ import {
   USER_SIGNUP_SUCESS,
   USER_SIGNUP_ERROR,
   USER_LOGOUT_SUCESS,
-  USER_LOGOUT_ERROR
+  USER_LOGOUT_ERROR,
+  USER_FIND,
+  USER_FIND_ERROR
 } from '../actions/types';
 
 const userLoginSucess = user => ({
@@ -40,11 +42,28 @@ const userLogoutError = error => ({
   error
 });
 
+const userFind = (user) => ({
+  type: USER_FIND,
+  user
+});
+
+const userFindError = error => ({
+  type: USER_FIND_ERROR,
+  error
+});
+
+export const repairUser = (user) => dispatch => {
+  const action = userFind(user)
+  dispatch(action);
+  return Promise.resolve(user);
+}
+
 export const processLogin = ({ email, password }) => dispatch => {
   return firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then(user => {
+      AsyncStorage.setItem('@user', JSON.stringify(user))
       const action = userLoginSucess(user);
       dispatch(action);
       return user;
@@ -60,7 +79,7 @@ export const processSignup = ({ email, password }) => dispatch => {
   return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then(user => {
+    .then(({ user }) => {
       const action = userSignupSucess(user);
       dispatch(action);
       return user;
@@ -76,7 +95,7 @@ export const processLogout = () => dispatch => {
   return firebase
     .auth()
     .signOut()
-    .then( () =>{
+    .then(() => {
       const action = userLogoutSucess();
       dispatch(action);
       return
