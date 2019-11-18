@@ -1,4 +1,5 @@
 import firebase from 'react-native-firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Alert } from 'react-native';
 import strings from '../config/strings';
 

@@ -1,6 +1,7 @@
 import ImagePicker from 'react-native-image-picker';
 import Permissions from 'react-native-permissions';
 import RNFS from 'react-native-fs';
+import AsyncStorage from '@react-native-community/async-storage';
 // import { storage } from 'react-native-firebase';
 // import { getUser, setUser } from './ApiServices';
 

@@ -4,7 +4,8 @@ import {
   Image,
   Text,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -14,7 +15,8 @@ import { processSignup } from '../actions';
 import MyInput from '../components/MyInput';
 import MyButton from '../components/MyButton';
 
-import { styles } from '../config/styles';
+import colors from '../config/colors';
+import metrics from '../config/metrics';
 import strings from '../config/strings';
 import logo from '../assets/images/logo.png';
 
@@ -145,6 +147,7 @@ class SignUp extends Component {
               label={strings.EMAIL_LABEL}
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
+              autoCapitalize='none'
               errorMessage={this.state.errorMessageEmail}
               leftIcon={<Icon style={styles.containerIcon} name='envelope' size={24} color='gray' />}
               onChangeText={(value) => this.handleChange('email', value.trim())}
@@ -154,6 +157,7 @@ class SignUp extends Component {
               label={strings.PASSWORD_LABEL}
               placeholder={strings.PASSWORD_PLACEHOLDER}
               textContentType='password'
+              autoCapitalize='none'
               secureTextEntry={this.state.isPassword}
               errorMessage={this.state.errorMessagePassword}
               leftIcon={<Icon style={styles.containerIcon} name='lock' size={24} color='gray' />}
@@ -200,5 +204,78 @@ class SignUp extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({ 
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: colors.BACKGROUND,
+  },
+
+  form: {
+    margin: 20,
+    padding: 20,
+    borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)'
+  },
+
+  formSignUp: {
+    height: metrics.DEVICE_HEIGHT * 0.75,
+  },
+
+  logo: {
+    height: metrics.DEVICE_HEIGHT * 0.2,
+    marginBottom: 5,
+    resizeMode: 'contain',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+
+  containerIcon:{
+    marginLeft: 0,
+    paddingHorizontal: 0
+  },
+
+  buttonContainer: {
+    flexDirection: 'column',
+    marginTop: -45,
+    width: metrics.DEVICE_WIDTH * 0.75,
+    alignSelf: 'center',
+    alignItems: 'flex-end',
+    marginVertical: 10
+	},
+
+  signupContainer: {
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: 10,
+    bottom: -45,
+  },
+
+  containerNavigate: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  inputContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    marginBottom: 20,
+  },
+
+  text: {
+    fontSize: 15,
+    color: colors.WHITE,
+  },
+
+  textUnderline: {
+    fontSize: 15,
+    color: colors.WHITE,
+    textDecorationLine: "underline"
+  },
+
+});
+
 
 export default connect(null, { processSignup })(SignUp);

@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Image, FlatListProps, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  FlatListProps,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
 import MyOverlay from './MyOverlay';
 
-import { styles } from '../config/styles';
 import strings from '../config/strings';
 import MyButton from './MyButton';
 import colors from '../config/colors';
+import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+
 import { Icon, Badge } from 'react-native-elements';
+
+import { connect } from 'react-redux';
+import { deleteVehicle, watchVehicles } from '../actions';
 
 type props = FlatListProps;
 
-export default class MyFlatList extends Component<props> {
+class MyFlatList extends Component<props> {
   constructor(props) {
     super(props);
 
@@ -33,9 +45,7 @@ export default class MyFlatList extends Component<props> {
     return (
       // implemented without image with header
       <TouchableOpacity
-        style={styles.item}
-        onPressIn={() => this.setItemSelected(item)}
-        onLongPress={this.setModalVisibleInvisivle}>
+        style={styles.item}>
         <Image
           resizeMode={'cover'}
           style={styles.image}
@@ -51,6 +61,12 @@ export default class MyFlatList extends Component<props> {
             </View>
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.options}
+          onPressIn={() => this.setItemSelected(item)}
+          onPress={this.setModalVisibleInvisivle}>
+          <IconFontAwesome5 name='ellipsis-v' size={25} />
+        </TouchableOpacity>
       </TouchableOpacity>
     );
   }
@@ -62,9 +78,9 @@ export default class MyFlatList extends Component<props> {
         <MyOverlay isVisible={isVisible}>
           <View style={styles.containerOverLay}>
             <View style={styles.containerHeadOverLay}>
-              <Text style={styles.textHeaderOverlay}> { itemSelected && `${itemSelected.model} - ${itemSelected.plate}`.toUpperCase()}</Text>
+              <Text style={styles.textHeaderOverlay}> {itemSelected && `${itemSelected.model} - ${itemSelected.plate}`.toUpperCase()}</Text>
               <TouchableOpacity onPress={this.setModalVisibleInvisivle}>
-                <Icon name='close' size={30}/>
+                <Icon name='close' size={30} />
               </TouchableOpacity>
             </View>
             <View style={styles.containerBodyOverLay}>
@@ -78,7 +94,11 @@ export default class MyFlatList extends Component<props> {
                 buttonStyle={{ backgroundColor: colors.WARNING }} />
               <MyButton
                 title={strings.DELETE}
-                onPress={() => { }}
+                onPress={() => {
+                  this.props.deleteVehicle(itemSelected);
+                  this.setModalVisibleInvisivle();
+                  this.props.watchVehicles();
+                }}
                 containerStyle={styles.buttonOverlay}
                 buttonStyle={{ backgroundColor: colors.DANGER }} />
               <MyButton
@@ -93,8 +113,133 @@ export default class MyFlatList extends Component<props> {
         <FlatList
           {...this.props}
           renderItem={({ item }) => this.renderItem(item)}
-          keyExtractor={({ id, title }) => id + title} />
+          keyExtractor={({ id, title }) => `${id}-${title}`} />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+
+  item: {
+    minHeight: 75,
+    maxHeight: 95,
+    height: 85,
+    margin: 8,
+    alignItems: 'center',
+    backgroundColor: '#FAFAFA',
+    flexDirection: 'row'
+  },
+
+  containerOverLay: {
+    width: '100%',
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'space-around'
+  },
+
+  containerHeadOverLay: {
+    flex: 1,
+    padding: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+
+  containerBodyOverLay: {
+    flex: 2,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.DEFAULT,
+    justifyContent: 'space-between'
+  },
+
+  containerFooterOverLay: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 5,
+    justifyContent: 'space-around'
+  },
+
+  buttonOverlay: {
+    flex: 1,
+    marginHorizontal: 5
+  },
+
+  textHeaderOverlay: {
+    fontWeight: 'bold',
+    fontSize: 18,
+
+  },
+
+  contentInfor: {
+    flex: 2,
+    margin: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+
+  itemInfo: {
+    flex: 2,
+    justifyContent: 'space-between',
+
+  },
+
+  options: {
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    width: 30,
+    height: 30
+  },
+
+  buttonInfo: {
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  textButton: {
+    justifyContent: 'center',
+    color: colors.PRIMARY
+  },
+
+  textPlaca: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    alignSelf: 'center',
+  },
+
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  containerStatus: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5
+  },
+
+  itemTitulo: {
+    marginHorizontal: 5,
+    fontSize: 16
+  },
+
+});
+
+const mapStateToProps = state => {
+  return { ...state }
+}
+
+const mapDispatchToProps = {
+  deleteVehicle,
+  watchVehicles
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyFlatList);

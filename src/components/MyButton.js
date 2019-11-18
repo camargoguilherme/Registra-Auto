@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from 'react-native';
 
 import { Button, ButtonProps } from 'react-native-elements';
-
-import { styles } from '../config/styles'
 
 type props = ButtonProps;
 
@@ -31,3 +30,17 @@ export default class MyButton extends Component<props> {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  buttonStyleMyButton: {
+    flex: 1,
+    width: '100%',
+    height: 50,
+    alignItems: 'center',
+  },
+
+  containerStyleMyButton: {
+    flex: 0.5,
+    flexDirection: 'row',
+  },
+})

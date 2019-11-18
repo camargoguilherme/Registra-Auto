@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import MySearchBar from '../components/MySearchBar';
 import MyFlatList from '../components/MyFlatList';
 
-import { styles } from '../config/styles';
+import colors from '../config/colors';
 
 import { connect } from 'react-redux';
 import { watchVehicles, processUpload } from '../actions';
-
-import firebase from 'react-native-firebase';
-import MyButton from '../components/MyButton';
 
 class Listing extends Component {
   constructor(props) {
@@ -28,16 +25,26 @@ class Listing extends Component {
     const { watchVehicles } = this.props;
     watchVehicles();
     this.props.vehicles && (this.arrayholder = [...this.props.vehicles]);
-    console.log('componentDidMount', this.props.vehicles)
+  }
+
+  componentDidUpdate() {
+    const { watchVehicles } = this.props;
+    watchVehicles();
+    this.props.vehicles && (this.arrayholder = [...this.props.vehicles]);
   }
 
   searchFilterFunction = text => {
     this.setState({ value: text })
     const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.name.toUpperCase()}${item.status.toUpperCase()}${item.placa.toUpperCase()}`;
+      const itemData = `${item.name}${item.status}${item.placa}`.toUpperCase();
       const textData = text.toUpperCase();
       return itemData.includes(textData);
     });
+    if (text) {
+      this.arrayholder = [...newData];
+    } else {
+      this.props.vehicles && (this.arrayholder = [...this.props.vehicles]);
+    }
   };
 
   render() {
@@ -64,16 +71,29 @@ class Listing extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { listVehicle } = state;
-  if (listVehicle == null)
-    return { vehicles: listVehicle };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: colors.BACKGROUND,
+  },
 
-  const keys = Object.keys(listVehicle);
-  const listVehicleWithId = keys.map(key => {
-    return { ...listVehicle[key], id: key }
-  })
-  return { vehicles: listVehicleWithId };
+  containerFlatList: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.BACKGROUND,
+  },
+
+  containerStyleMySearchBar: {
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+    borderBottomWidth: 0
+  },
+});
+
+const mapStateToProps = ({ vehicle }) => {
+  return { vehicles: vehicle['vehicles'] };
 }
 
 const mapDispatchToProps = {

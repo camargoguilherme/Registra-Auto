@@ -3,6 +3,7 @@ import Permissions from 'react-native-permissions';
 import RNFS from 'react-native-fs';
 import constants from '../config/constants';
 import time from './time'
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Image {
   selectPhotoTapped = () => {
@@ -48,7 +49,6 @@ class Image {
   // uploadImage2 = (imageUri) => {
   //   const ext = imageUri.split('.').pop(); // Extract image extension
   //   const filename = `${uuid()}.${ext}`; // Generate unique name
-  //   this.setState({ uploading: true });
   //   firebase
   //     .storage()
   //     .ref(`tutorials/images/${filename}`)

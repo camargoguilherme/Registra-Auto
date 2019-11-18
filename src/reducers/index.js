@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import userReducer from './userReducer';
-import newVehicle from './newVehicle';
 import vehicleReducer from './vehicleReducer';
+import imageReducer from './imageReducer';
 
 export default combineReducers({
   user: userReducer,
-  vehicleForm: newVehicle,
-  listVehicle: vehicleReducer,
+  vehicle: vehicleReducer,
+  image: imageReducer
 });

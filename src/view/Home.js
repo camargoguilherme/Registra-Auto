@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, KeyboardAvoidingView } from 'react-native';
+import { View, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 
-import { styles } from '../config/styles';
 import colors from '../config/colors';
 
 import Details from '../view/Details';
@@ -34,10 +33,6 @@ export default class Home extends Component {
         return (
           <Listing {...this.props} />
         );
-      case 2:
-        return (
-          <Login {...this.props} />
-        );
     }
   }
 
@@ -64,3 +59,29 @@ export default class Home extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  containerStyleGroupButtons: {
+    height: 30
+  },
+
+  buttonStyleGroupButtons: {
+    backgroundColor: colors.BACKGROUND,
+  },
+
+  selectedButtonStyleGroupButtons: {
+    backgroundColor: colors.WHITE
+  },
+
+  selectedTextStyleGroupButtons: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: colors.BACKGROUND,
+  },
+
+  textStyleGroupButtons: {
+    fontWeight: '400',
+    color: colors.WHITE,
+  },
+
+})

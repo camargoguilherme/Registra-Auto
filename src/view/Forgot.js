@@ -4,7 +4,8 @@ import {
   Image,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Text
+  Text,
+  StyleSheet
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -12,8 +13,9 @@ import firebase from 'react-native-firebase';
 
 import MyInput from '../components/MyInput';
 import MyButton from '../components/MyButton';
-import { styles } from '../config/styles';
 import strings from '../config/strings';
+import colors from '../config/colors';
+import metrics from '../config/metrics';
 import logo from '../assets/images/logo.png';
 
 
@@ -111,6 +113,7 @@ export default class Login extends Component {
               label={strings.EMAIL_LABEL}
               placeholder={strings.EMAIL_PLACEHOLDER}
               textContentType='emailAddress'
+              autoCapitalize='none'
               errorMessage={this.state.errorMessageEmail}
               leftIcon={<Icon name='envelope' size={24} color='gray' />}
               onChangeText={this.handleEmailChange}
@@ -134,3 +137,70 @@ export default class Login extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({ 
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: colors.BACKGROUND,
+  },
+
+  form: {
+    margin: 20,
+    padding: 20,
+    borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)'
+  },
+
+  formForgot: {
+    height: metrics.DEVICE_HEIGHT * 0.45,
+  },
+
+  logo: {
+    height: metrics.DEVICE_HEIGHT * 0.2,
+    marginBottom: 5,
+    resizeMode: 'contain',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+
+  buttonContainer: {
+    flexDirection: 'column',
+    marginTop: -45,
+    width: metrics.DEVICE_WIDTH * 0.75,
+    alignSelf: 'center',
+    alignItems: 'flex-end',
+    marginVertical: 10
+	},
+
+  signupContainer: {
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: 10,
+    bottom: -45,
+  },
+
+  containerNavigate: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  inputContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    marginBottom: 20,
+  },
+
+  text: {
+    fontSize: 15,
+    color: colors.WHITE,
+  },
+
+  textUnderline: {
+    fontSize: 15,
+    color: colors.WHITE,
+    textDecorationLine: "underline"
+  },
+
+});

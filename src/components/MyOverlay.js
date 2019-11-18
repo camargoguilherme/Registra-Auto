@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Overlay, OverlayProps } from 'react-native-elements';
 
-import { styles } from '../config/styles';
-
 type props = OverlayProps;
 
 export default class MyOverlay extends Component<props> {

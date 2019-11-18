@@ -37,10 +37,21 @@ export default string = {
 
   LISTING: 'Listagem',
   REGISTER: 'Cadastrar',
+  SELECT: 'Selecione',
   DATE_TIME: 'Data',
+
+  BLUE: 'Azul',
+  GREEN: 'Verde',
+  RED: 'Vermelho',
+  BLACK: 'Preto',
 
   WEAK_PASSWORD: 'Senha fraca (min. 6 caracteres)',
   USER_NOT_FOUND: 'E-mail não encontrado',
   WRONG_PASSWORD: 'Senha errada',
-  INVALID_EMAIL: 'Formato de email não aceito (ex.: user@provider.com)'
+  INVALID_EMAIL: 'Formato de email não aceito (ex.: user@provider.com)',
+
+  SELECT_PHOTO: 'Select a photo',
+  CAMERA: 'Câmera',
+  GALERY: 'Galeria'
+
 }

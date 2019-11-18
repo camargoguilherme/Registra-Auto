@@ -25,8 +25,8 @@ export default string = {
   EMAIL_PLACEHOLDER: 'E-mail: user@provider.com',
   PASSWORD_PLACEHOLDER: 'Enter your password here',
   CONFIRMPASSWORD_PLACEHOLDER: 'Confirm your Password',
-  LICENSE_PLATE_PLACEHOLDER: 'Vehicle License plate',
-  MODEL_PLACEHOLDER: 'Vehicle Model',
+  LICENSE_PLATE_PLACEHOLDER: 'Plate',
+  MODEL_PLACEHOLDER: 'Model',
 
   USERNAME_MESSAGE: 'Enter a username',
   EMAIL_MESSAGE: 'Enter an email',
@@ -37,11 +37,21 @@ export default string = {
 
   LISTING: 'Listing',
   REGISTER: 'Register',
+  SELECT: 'Select',
   DATE_TIME: 'Date',
+
+  BLUE: 'Blue',
+  GREEN: 'Green',
+  RED: 'Red',
+  BLACK: 'Black',
 
   WEAK_PASSWORD: 'Weak password',
   USER_NOT_FOUND: 'E-mail not found',
   WRONG_PASSWORD: 'Wrong password',
-  INVALID_EMAIL: 'The email address is badly formated (ex.: user@provider.com)'
+  INVALID_EMAIL: 'The email address is badly formated (ex.: user@provider.com)',
+
+  SELECT_PHOTO: 'Select a photo',
+  CAMERA: 'Camera',
+  GALERY: 'Galery'
 
 }
