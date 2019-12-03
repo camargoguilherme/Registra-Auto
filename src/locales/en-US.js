@@ -8,6 +8,7 @@ export default string = {
   EDIT: 'Edit',
   CANCEL: 'Cancel',
   CONCLUDE: 'Conclude',
+  VIEW: 'View',
   FORGOT: 'Forgot Password?',
   DONT_HAVE: "Don't have an account?",
   HAVE: 'Already have an account?',
@@ -28,6 +29,8 @@ export default string = {
   LICENSE_PLATE_PLACEHOLDER: 'Plate',
   MODEL_PLACEHOLDER: 'Model',
 
+  CONCLUDE_MESSAGE: 'To conclude it is necessary to choose/take some picture',
+  LIST_ITEM_EMPTY: 'No saved items',
   OPTIONS_ITEM_MESSAGE: 'Select one of the options',
   USERNAME_MESSAGE: 'Enter a username',
   EMAIL_MESSAGE: 'Enter an email',
@@ -48,7 +51,8 @@ export default string = {
   LISTING: 'Listing',
   REGISTER: 'Register',
   SELECT: 'Select',
-  DATE_TIME: 'Date',
+  ENTRY_DATE: 'Entry Date',
+  DEPARTURE_DATE: 'Departure Date',
 
   BLUE: 'Blue',
   GREEN: 'Green',

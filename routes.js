@@ -16,6 +16,7 @@ import SignUp from './src/view/SignUp';
 import Forgot from './src/view/Forgot';
 import Home from './src/view/Home';
 import Details from './src/view/Details';
+import Conclude from './src/view/Conclude';
 import colors from './src/config/colors';
 
 class Routes extends Component {
@@ -50,6 +51,16 @@ const AppStackNavigator = createStackNavigator({
     screen: Details,
     navigationOptions:{
       title: 'Details',
+      headerStyle: {
+        alignContent: 'center'
+      }
+    }
+  },
+
+  Conclude: {
+    screen: Conclude,
+    navigationOptions:{
+      title: 'Conclude',
       headerStyle: {
         alignContent: 'center'
       }

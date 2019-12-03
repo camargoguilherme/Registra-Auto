@@ -41,7 +41,6 @@ import {
 	resetForm,
 	selectPhotoTapped,
 	uploadImages,
-	setImage,
 	setAllImages,
 	resetImages
 } from '../actions';
@@ -70,19 +69,24 @@ class Details extends Component {
 
 		if (params && params['vehicle']) {
 			clearInterval(this.dateEntry);
-			this.props.setAllFields(params['vehicle']);
-			this.props.setAllImages(params['vehicle']['images'])
+			const vehicle = { ...params['vehicle'] };
+			vehicle['status'] = !!params['conclude'];
+
+			!!params['conclude'] && this.concludeOption();
+			this.props.setAllFields(vehicle);
+			this.props.setAllImages(vehicle['images'])
 		} else {
 			this.props.resetForm();
 			this.props.resetImages();
 			this.props.setField('id', time.dateNow());
 		}
-
 		this.messages();
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.dateEntry);
+		this.props.resetForm();
+		this.props.resetImages();
 	}
 
 	messages = () => {
@@ -121,8 +125,22 @@ class Details extends Component {
 		return messages;
 	}
 
-	componentWillUnmount() {
-		clearInterval(this.dateEntry);
+	concludeOption = () => {
+		Alert.alert(
+			`${strings.CONCLUDE}?`,
+			strings.CONCLUDE_MESSAGE,
+			[
+				{
+					text: strings.CANCEL,
+					onPress: () => { this.props.navigation.pop() }
+				},
+				{
+					text: strings.CONCLUDE,
+					onPress: () => { this.props.selectPhotoTapped() }
+				},
+			],
+			{ cancelable: false },
+		)
 	}
 
 	handleSave = async () => {
@@ -135,10 +153,16 @@ class Details extends Component {
 		if (!this.messages()) {
 			if (Array.isArray(this.props.images) && this.props.images.length)
 				imagesUploaded = await this.props.uploadImages(this.props.vehicle['id'], this.props.images);
-			console.log('imagesUploaded', imagesUploaded)
+
 			let timeVehicle = this.props.isEdit ? this.props.vehicle['entryDate'] : this.state.time;
 
 			this.props.setAllImages(imagesUploaded);
+
+			if (this.props.vehicle['status']) {
+				let departureDate = this.time.dateHourToString();
+				this.props.setField('departureDate', departureDate);
+				this.props.vehicle['departureDate'] = departureDate;
+			}
 
 			this.props.setField('entryDate', timeVehicle);
 			this.props.vehicle['entryDate'] = timeVehicle;
@@ -165,7 +189,7 @@ class Details extends Component {
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.BACKGROUND }}>
 				<View style={[styles.formDetails, styles.form, { flexDirection: 'column' }]}>
-					<View style={{ height: '30%' }}>
+					<View style={{ height: '40%' }}>
 						<MyImagesSlider />
 					</View>
 					<View style={[styles.inputContainer]}>
@@ -175,15 +199,16 @@ class Details extends Component {
 							placeholder={strings.LICENSE_PLATE_PLACEHOLDER}
 							errorMessage={this.state.errorMessageEmail}
 							autoCapitalize='characters'
-							icon={{ name: 'envelope', size: 24, color: 'gray' }}
 							onChangeText={itemValue => this.props.setField('plate', itemValue)}
-							value={this.props.vehicle['plate']} />
+							value={this.props.vehicle['plate']}
+						/>
+
 						<MyInput
 							style={styles.propsStyle}
 							label={strings.MODEL_LABEL}
 							placeholder={strings.MODEL_PLACEHOLDER}
 							errorMessage={this.state.errorMessageEmail}
-							icon={{ name: 'envelope', size: 24, color: 'gray' }}
+							autoCapitalize='characters'
 							onChangeText={itemValue => this.props.setField('model', itemValue)}
 							value={this.props.vehicle['model']}
 						/>
@@ -211,18 +236,17 @@ class Details extends Component {
 							style={{ width: '100%' }}
 							containerStyle={{ marginVertical: 10 }}
 							inputContainerStyle={{ marginHorizontal: 0, paddingHorizontal: 0 }}
-							label={strings.DATE_TIME}
+							label={strings.ENTRY_DATE}
 							editable={false}
 							value={this.props.isEdit ?
 								this.props.vehicle['entryDate'] :
 								this.state.time}
-							inputStyle={{ textAlign: 'center' }}
-							icon={{ name: 'envelope', size: 24, color: 'gray' }} />
+							inputStyle={{ textAlign: 'center' }} />
 					</View>
 				</View>
 				<View style={[styles.buttonContainer, { flexDirection: 'row' }]}>
 					<MyButton
-						title={strings.SAVE}
+						title={this.props.vehicle['status'] ? strings.CONCLUDE : strings.SAVE}
 						loading={this.state.isLoading}
 						disabled={this.state.isLoading}
 						disabledStyle={{ backgroundColor: colors.SUCCESS }}

@@ -18,6 +18,7 @@ const defaultState = {
     plate: '',
     model: '',
     entryDate: '',
+    departureDate: '',
     color: '',
     images: [],
     status: false
@@ -36,7 +37,7 @@ export default function (state = defaultState, action) {
       obj = {
         vehicle: { ...defaultState['vehicle'] },
         vehicles: [...action.vehicles], isEdit: false, isLoadingVehicles: false
-      }
+      };
       return Object.assign({}, state, obj);
     case SET_VEHICLES_ERROR:
       return Object.assign({}, state, { vehiclesErrorMessage: action.error });

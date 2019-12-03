@@ -10,6 +10,7 @@ const LOGIN_SIGNUP_FORGOT = {
   EDIT: translate('EDIT'),
   CANCEL: translate('CANCEL'),
   CONCLUDE: translate('CONCLUDE'),
+  VIEW: translate('VIEW'),
   SIGNUP2: translate('SIGNUP2'),
   FORGOT: translate('FORGOT'),
   DONT_HAVE: translate('DONT_HAVE'),
@@ -42,6 +43,7 @@ const PLACEHOLDERS = {
 
 // Strings Messages
 const MESSAGES = {
+  CONCLUDE_MESSAGE: translate('CONCLUDE_MESSAGE'),
   OPTIONS_ITEM_MESSAGE: translate('OPTIONS_ITEM_MESSAGE'),
   USERNAME_MESSAGE: translate('USERNAME_MESSAGE'),
   EMAIL_MESSAGE: translate('EMAIL_MESSAGE'),
@@ -66,7 +68,8 @@ const MESSAGES = {
 const OTHERS = {
   LISTING: translate('LISTING'),
   REGISTER: translate('REGISTER'),
-  DATE_TIME: translate('DATE_TIME')
+  ENTRY_DATE: translate('ENTRY_DATE'),
+  DEPARTURE_DATE: translate('DEPARTURE_DATE')
 }
 
 export default string = {

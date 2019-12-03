@@ -21,6 +21,7 @@ import { Icon, Badge } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import { deleteVehicle, watchVehicles } from '../actions';
+import { translate } from '../locales';
 
 type props = FlatListProps;
 
@@ -29,14 +30,14 @@ class MyFlatList extends Component<props> {
     super(props);
 
     this.state = {
-      itemSelected : {}
+      itemSelected: {}
     }
 
     this.arrayholder = [...this.props.data];
     this.navigate = this.props.navigation.navigate;
   }
 
-  options = () => {
+  optionsNotConclude = () => {
     Alert.alert(
       `${this.state.itemSelected.model} - ${this.state.itemSelected.plate}`.toUpperCase(),
       strings.OPTIONS_ITEM_MESSAGE,
@@ -51,12 +52,33 @@ class MyFlatList extends Component<props> {
         },
         {
           text: strings.EDIT,
-          onPress: () => { this.navigate('Details', { vehicle: this.state.itemSelected }) },
+          onPress: () => { this.navigate('Details', { vehicle: this.state.itemSelected, conclude: false }) },
           style: 'editar',
         },
         {
-          text: strings.CONCLUDE, onPress: () => { }
+          text: strings.CONCLUDE, 
+          onPress: () => { this.navigate('Details', { vehicle: this.state.itemSelected, conclude: true }) }
         },
+      ],
+      { cancelable: true },
+    )
+  }
+
+  optionsConclude = () => {
+    Alert.alert(
+      `${this.state.itemSelected.model} - ${this.state.itemSelected.plate}`.toUpperCase(),
+      strings.OPTIONS_ITEM_MESSAGE,
+      [
+
+        {
+          text: strings.CANCEL,
+          style: 'cancel',
+        },        
+        {
+          text: strings.VIEW,
+          onPress: () => { this.navigate('Conclude', { vehicle: this.state.itemSelected }) },
+          style: 'editar',
+        }
       ],
       { cancelable: true },
     )
@@ -66,7 +88,7 @@ class MyFlatList extends Component<props> {
 
   setItemSelected = (itemSelected) => this.setState({ itemSelected })
 
-  renderItem = ( item ) => {
+  renderItem = (item) => {
     const { plate, model, entryDate, images, status } = item;
     return (
       // implemented without image with header
@@ -84,16 +106,25 @@ class MyFlatList extends Component<props> {
             <Text style={styles.textModelo}>{`${model}`.toUpperCase()}</Text>
             <View style={styles.containerStatus}>
               <Text style={styles.itemTitulo}>{entryDate}</Text>
-              <Badge status={status?'error':'success'} value={<Text style={styles.itemBadge}>{`${status?'CLOSE':'OPEN'}`.toUpperCase()}</Text>} />
+              <Badge status={status ? 'error' : 'success'} value={<Text style={styles.itemBadge}>{`${status ? 'CLOSE' : 'OPEN'}`.toUpperCase()}</Text>} />
             </View>
           </View>
         </View>
         <TouchableOpacity
           style={styles.options}
           onPressIn={() => this.setItemSelected(item)}
-          onPress={this.options}>
+          onPress={ item['status'] ? this.optionsConclude :this.optionsNotConclude}>
           <IconFontAwesome5 name='ellipsis-v' size={25} />
         </TouchableOpacity>
+      </View>
+    );
+  }
+
+  listEmpty = () => {
+    return (
+      <View
+        style={styles.itemEmpty}>
+        <Text style={styles.textItemEmpty}>{translate('LIST_ITEM_EMPTY')}</Text>
       </View>
     );
   }
@@ -104,6 +135,7 @@ class MyFlatList extends Component<props> {
         <FlatList
           {...this.props}
           renderItem={({ item }) => this.renderItem(item)}
+          ListEmptyComponent={this.listEmpty}
           keyExtractor={({ id, title }) => `${id}-${title}`} />
       </View>
     );
@@ -120,6 +152,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FAFAFA',
     flexDirection: 'row'
+  },
+
+  itemEmpty: {
+    height: 160,
+    margin: 8,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 
   contentInfor: {
@@ -151,6 +191,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 
+  textItemEmpty:{
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: colors.DEFAULT,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+
   image: {
     flex: 1,
     width: '100%',
@@ -177,7 +225,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ vehicle, images }) => {
-	return { vehicle: vehicle['vehicle'], images: images['images'] };
+  return { vehicle: vehicle['vehicle'], images: images['images'] };
 }
 
 const mapDispatchToProps = {
@@ -185,4 +233,4 @@ const mapDispatchToProps = {
   watchVehicles
 }
 
-export default connect( mapStateToProps, mapDispatchToProps)(MyFlatList);
+export default connect(mapStateToProps, mapDispatchToProps)(MyFlatList);

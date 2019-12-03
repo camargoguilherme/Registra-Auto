@@ -8,6 +8,7 @@ export default string = {
   EDIT: 'Editar',
   CANCEL: 'Cancelar',
   CONCLUDE: 'Concluir',
+  VIEW: 'Vizualizar',
   FORGOT: 'Esqueceu a senha?',
   DONT_HAVE: "Não tem uma conta?",
   HAVE: 'Já tem uma conta?',
@@ -28,6 +29,8 @@ export default string = {
   LICENSE_PLATE_PLACEHOLDER: 'Placa do veículo',
   MODEL_PLACEHOLDER: 'Modelo do veículo',
 
+  CONCLUDE_MESSAGE: 'Para concluir é necessaŕio escolher/tira alguma foto',
+  LIST_ITEM_EMPTY: 'Não há items salvos',
   OPTIONS_ITEM_MESSAGE: 'Selecione uma das opções',
   USERNAME_MESSAGE: 'Informe um nome de usuário',
   EMAIL_MESSAGE: 'Informe um email',
@@ -48,7 +51,8 @@ export default string = {
   LISTING: 'Listagem',
   REGISTER: 'Cadastrar',
   SELECT: 'Selecione',
-  DATE_TIME: 'Data',
+  ENTRY_DATE: 'Data de Entrada',
+  DEPARTURE_DATE: 'Data de Saída',
 
   BLUE: 'Azul',
   GREEN: 'Verde',

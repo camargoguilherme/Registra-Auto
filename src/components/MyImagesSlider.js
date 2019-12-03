@@ -97,7 +97,7 @@ class MyImagesSlider extends Component<props> {
 
 const styles = StyleSheet.create({
   containerImagesSlider: {
-    height: '70%',
+    height: '80%',
     borderWidth: 2.5,
     borderColor: colors.SILVER,
     backgroundColor: colors.DEFAULT,
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: metrics.DEVICE_WIDTH * .2,
-    height: metrics.DEVICE_WIDTH * .2,
+    width: metrics.DEVICE_WIDTH * .4,
+    height: metrics.DEVICE_WIDTH * .4,
     justifyContent: 'center',
     alignItems: 'center'
   },

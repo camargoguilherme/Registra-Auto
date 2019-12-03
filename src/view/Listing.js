@@ -32,7 +32,7 @@ class Listing extends Component {
   searchFilterFunction = text => {
     this.setState({ value: text })
     const newData = this.props.vehicles.filter(item => {
-      return `${item.type}${item.color}${item.plate}${item.model}`.toUpperCase().includes(text.toUpperCase());
+      return `${item.entryDate}${item.type}${item.color}${item.plate}${item.model}${item.status? 'CLOSE' : 'OPEN'}`.toUpperCase().includes(text.toUpperCase());
     });
     this.arrayholder = [...newData];
   };
@@ -48,7 +48,7 @@ class Listing extends Component {
           refreshControl={
             <RefreshControl
               refreshing={this.props.isLoadingVehicles}
-              onRefresh={() => this.props.watchVehicles() }
+              onRefresh={this.props.watchVehicles }
             />
           }
           ListHeaderComponent={
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ vehicle, images }) => {
-	return { vehicles: vehicle['vehicles'], images: images['images'] };
+	return { ...vehicle, ...images, vehicles: vehicle['vehicles'], images: images['images'] };
 }
 
 const mapDispatchToProps = {
