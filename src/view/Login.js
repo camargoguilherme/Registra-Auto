@@ -52,7 +52,6 @@ class Login extends Component {
         break;
       default:
         // return "Erro desconhecido.";
-        console.log(code, message)
         Alert.alert(code, message)
         this.setState(prevState => ({ isLoading: !prevState.isLoading }));
         break;

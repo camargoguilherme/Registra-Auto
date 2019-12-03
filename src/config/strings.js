@@ -1,6 +1,7 @@
 import { translate } from '../locales';
 
-export default string = {
+// Strings Tela de LogIn, SignUp e Forgot
+const LOGIN_SIGNUP_FORGOT = {
   LOGIN: translate('LOGIN'),
   SIGNUP1: translate('SIGNUP1'),
   SEND: translate('SEND'),
@@ -13,7 +14,10 @@ export default string = {
   FORGOT: translate('FORGOT'),
   DONT_HAVE: translate('DONT_HAVE'),
   HAVE: translate('HAVE'),
+}
 
+// Strings Labels
+const LABELS = {
   USERNAME_LABEL: translate('USERNAME_LABEL'),
   EMAIL_LABEL: translate('EMAIL_LABEL'),
   PASSWORD_LABEL: translate('PASSWORD_LABEL'),
@@ -22,8 +26,11 @@ export default string = {
   MODEL_LABEL: translate('MODEL_LABEL'),
   DATE_HOUR_LABEL: translate('DATE_HOUR_LABEL'),
   TYPE_LABEL: translate('TYPE_LABEL'),
-  COLOR_LABEL: translate('COLOR_LABEL'),
+  COLOR_LABEL: translate('COLOR_LABEL')
+}
 
+// Strings Placeholders
+const PLACEHOLDERS = {
   USERNAME_PLACEHOLDER: translate('USERNAME_PLACEHOLDER'),
   EMAIL_PLACEHOLDER: translate('EMAIL_PLACEHOLDER'),
   PASSWORD_PLACEHOLDER: translate('PASSWORD_PLACEHOLDER'),
@@ -31,19 +38,41 @@ export default string = {
   LICENSE_PLATE_PLACEHOLDER: translate('LICENSE_PLATE_PLACEHOLDER'),
   MODEL_PLACEHOLDER: translate('MODEL_PLACEHOLDER'),
   DATE_HOUR_PLACEHOLDER: translate('DATE_HOUR_PLACEHOLDER'),
+}
 
+// Strings Messages
+const MESSAGES = {
+  OPTIONS_ITEM_MESSAGE: translate('OPTIONS_ITEM_MESSAGE'),
   USERNAME_MESSAGE: translate('USERNAME_MESSAGE'),
   EMAIL_MESSAGE: translate('EMAIL_MESSAGE'),
   PASSWORD_MESSAGE: translate('PASSWORD_MESSAGE'),
   CONFIRMPASSWORD_MESSAGE: translate('CONFIRMPASSWORD_MESSAGE'),
   PASSWORD_NOT_MATCH_MESSAGE: translate('PASSWORD_NOT_MATCH_MESSAGE'),
-
-  LISTING: translate('LISTING'),
-  REGISTER: translate('REGISTER'),
-  DATE_TIME: translate('DATE_TIME'),
-
   WEAK_PASSWORD: translate('WEAK_PASSWORD'),
   USER_NOT_FOUND: translate('USER_NOT_FOUND'),
   WRONG_PASSWORD: translate('WRONG_PASSWORD'),
-  INVALID_EMAIL: translate('INVALID_EMAIL')
+  INVALID_EMAIL: translate('INVALID_EMAIL'),
+  REMOVE_IMAGE: translate('REMOVE_IMAGE'),
+  PLATE_MESSAGE: translate('PLATE_MESSAGE'),
+  MODEL_MESSAGE: translate('MODEL_MESSAGE'),
+  TYPE_MESSAGE: translate('TYPE_MESSAGE'),
+  COLOR_MESSAGE: translate('COLOR_MESSAGE'),
+  PHOTO_MESSAGE: translate('PHOTO_MESSAGE'),
+  TITLE_ERRO_DETAIL_MESSAGE: translate('TITLE_ERRO_DETAIL_MESSAGE'),
+}
+
+// Demais Strings
+
+const OTHERS = {
+  LISTING: translate('LISTING'),
+  REGISTER: translate('REGISTER'),
+  DATE_TIME: translate('DATE_TIME')
+}
+
+export default string = {
+  ...LOGIN_SIGNUP_FORGOT,
+  ...LABELS,
+  ...PLACEHOLDERS,
+  ...MESSAGES,
+  ...OTHERS
 }

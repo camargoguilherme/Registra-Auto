@@ -32,7 +32,6 @@ export const selectPhotoTapped = (cb) => {
 
 uploadImage = async (data) => {
   //let result = await takeSnapshot(data.data)
-  console.log('result', data)
   return { id: Date.now(), url: data.data}
 }
 

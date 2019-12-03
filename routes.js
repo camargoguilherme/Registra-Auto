@@ -31,8 +31,6 @@ class Routes extends Component {
 
   render(){
     const { user } = this.props;
-    console.log('user', {...user});
-    console.log('signed', user.signed);
     const Layout = AppSwitchNavigator(user.signed);
     return(
       <Layout />

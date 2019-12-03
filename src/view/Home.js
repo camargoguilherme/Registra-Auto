@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, KeyboardAvoidingView, StyleSheet } from 'react-native';
-import { ButtonGroup } from 'react-native-elements';
+import { ButtonGroup, Button } from 'react-native-elements';
 
 import colors from '../config/colors';
 
@@ -14,7 +14,7 @@ export default class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedIndex: 0
+      selectedIndex: 1
     }
     this.updateIndex = this.updateIndex.bind(this)
   }
@@ -36,11 +36,17 @@ export default class Home extends Component {
     }
   }
 
+  //   renderScreen = (index) => ({
+  //     <Details {...this.props} />,
+  //     <Listing {...this.props} />
+  // })[index]
+
   render() {
     const buttons = [translate('REGISTER'), translate('LISTING')]
     const { selectedIndex } = this.state
+
     return (
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         style={{ height: '100%', backgroundColor: colors.BACKGROUND }}
         behavior='padding'>
         <ButtonGroup

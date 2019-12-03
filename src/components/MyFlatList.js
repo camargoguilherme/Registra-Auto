@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Alert,
   FlatList,
   Image,
   FlatListProps,
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import MyOverlay from './MyOverlay';
+
+
 
 import strings from '../config/strings';
-import MyButton from './MyButton';
 import colors from '../config/colors';
+import logo from '../assets/images/logo.png';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 import { Icon, Badge } from 'react-native-elements';
@@ -27,89 +29,78 @@ class MyFlatList extends Component<props> {
     super(props);
 
     this.state = {
-      isVisible: false,
-      itemSelected: {}
-    };
+      itemSelected : {}
+    }
 
     this.arrayholder = [...this.props.data];
     this.navigate = this.props.navigation.navigate;
   }
 
+  options = () => {
+    Alert.alert(
+      `${this.state.itemSelected.model} - ${this.state.itemSelected.plate}`.toUpperCase(),
+      strings.OPTIONS_ITEM_MESSAGE,
+      [
+        {
+          text: strings.DELETE,
+          onPress: async () => {
+            this.props.deleteVehicle(this.state.itemSelected['id']);
+            this.props.watchVehicles();
+          },
+          style: 'destructive',
+        },
+        {
+          text: strings.EDIT,
+          onPress: () => { this.navigate('Details', { vehicle: this.state.itemSelected }) },
+          style: 'editar',
+        },
+        {
+          text: strings.CONCLUDE, onPress: () => { }
+        },
+      ],
+      { cancelable: true },
+    )
+  }
 
   setModalVisibleInvisivle = () => this.setState(prevState => ({ isVisible: !prevState.isVisible }))
 
   setItemSelected = (itemSelected) => this.setState({ itemSelected })
 
-  renderItem = (item) => {
-
+  renderItem = ( item ) => {
+    const { plate, model, entryDate, images, status } = item;
     return (
       // implemented without image with header
-      <TouchableOpacity
+      <View
         style={styles.item}>
         <Image
           resizeMode={'cover'}
           style={styles.image}
-          source={{ uri: item.url }}>
+          defaultSource={logo}
+          source={{ uri: (images && images[0].url) }}>
         </Image>
         <View style={styles.contentInfor}>
           <View style={styles.itemInfo}>
-            <Text style={styles.textPlaca}>{`${item.plate}`.toUpperCase()}</Text>
-            <Text style={styles.textModelo}>{`${item.model}`.toUpperCase()}</Text>
+            <Text style={styles.textPlaca}>{`${plate}`.toUpperCase()}</Text>
+            <Text style={styles.textModelo}>{`${model}`.toUpperCase()}</Text>
             <View style={styles.containerStatus}>
-              <Text style={styles.itemTitulo}>{item.entry_date}</Text>
-              <Badge status="success" value={<Text style={styles.itemTitulo}>{`${item.status}`.toUpperCase()}</Text>} />
+              <Text style={styles.itemTitulo}>{entryDate}</Text>
+              <Badge status={status?'error':'success'} value={<Text style={styles.itemBadge}>{`${status?'CLOSE':'OPEN'}`.toUpperCase()}</Text>} />
             </View>
           </View>
         </View>
         <TouchableOpacity
           style={styles.options}
           onPressIn={() => this.setItemSelected(item)}
-          onPress={this.setModalVisibleInvisivle}>
+          onPress={this.options}>
           <IconFontAwesome5 name='ellipsis-v' size={25} />
         </TouchableOpacity>
-      </TouchableOpacity>
+      </View>
     );
   }
 
   render() {
-    let { isVisible, itemSelected } = this.state
     return (
       <View style={{ width: '100%', height: '100%' }}>
-        <MyOverlay isVisible={isVisible}>
-          <View style={styles.containerOverLay}>
-            <View style={styles.containerHeadOverLay}>
-              <Text style={styles.textHeaderOverlay}> {itemSelected && `${itemSelected.model} - ${itemSelected.plate}`.toUpperCase()}</Text>
-              <TouchableOpacity onPress={this.setModalVisibleInvisivle}>
-                <Icon name='close' size={30} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.containerBodyOverLay}>
-              <Text></Text>
-            </View>
-            <View style={styles.containerFooterOverLay}>
-              <MyButton
-                title={strings.EDIT}
-                onPress={() => { this.setModalVisibleInvisivle(); this.navigate('Details', { editItem: itemSelected }) }}
-                containerStyle={styles.buttonOverlay}
-                buttonStyle={{ backgroundColor: colors.WARNING }} />
-              <MyButton
-                title={strings.DELETE}
-                onPress={() => {
-                  this.props.deleteVehicle(itemSelected);
-                  this.setModalVisibleInvisivle();
-                  this.props.watchVehicles();
-                }}
-                containerStyle={styles.buttonOverlay}
-                buttonStyle={{ backgroundColor: colors.DANGER }} />
-              <MyButton
-                title={strings.CONCLUDE}
-                onPress={() => { }}
-                containerStyle={styles.buttonOverlay}
-                buttonStyle={{ backgroundColor: colors.SUCCESS }} />
-
-            </View>
-          </View>
-        </MyOverlay>
         <FlatList
           {...this.props}
           renderItem={({ item }) => this.renderItem(item)}
@@ -131,47 +122,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
 
-  containerOverLay: {
-    width: '100%',
-    height: '100%',
-    flexDirection: 'column',
-    justifyContent: 'space-around'
-  },
-
-  containerHeadOverLay: {
-    flex: 1,
-    padding: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-
-  containerBodyOverLay: {
-    flex: 2,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: colors.DEFAULT,
-    justifyContent: 'space-between'
-  },
-
-  containerFooterOverLay: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 5,
-    justifyContent: 'space-around'
-  },
-
-  buttonOverlay: {
-    flex: 1,
-    marginHorizontal: 5
-  },
-
-  textHeaderOverlay: {
-    fontWeight: 'bold',
-    fontSize: 18,
-
-  },
-
   contentInfor: {
     flex: 2,
     margin: 5,
@@ -181,6 +131,7 @@ const styles = StyleSheet.create({
 
   itemInfo: {
     flex: 2,
+    marginHorizontal: 5,
     justifyContent: 'space-between',
 
   },
@@ -192,17 +143,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 30,
     height: 30
-  },
-
-  buttonInfo: {
-    marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  textButton: {
-    justifyContent: 'center',
-    color: colors.PRIMARY
   },
 
   textPlaca: {
@@ -223,18 +163,21 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 5
   },
 
   itemTitulo: {
-    marginHorizontal: 5,
+    fontSize: 16
+  },
+
+  itemBadge: {
+    padding: 5,
     fontSize: 16
   },
 
 });
 
-const mapStateToProps = state => {
-  return { ...state }
+const mapStateToProps = ({ vehicle, images }) => {
+	return { vehicle: vehicle['vehicle'], images: images['images'] };
 }
 
 const mapDispatchToProps = {
@@ -242,4 +185,4 @@ const mapDispatchToProps = {
   watchVehicles
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyFlatList);
+export default connect( mapStateToProps, mapDispatchToProps)(MyFlatList);

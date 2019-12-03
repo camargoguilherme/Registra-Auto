@@ -56,8 +56,6 @@ class SignUp extends Component {
         this.setState(prevState => ({ errorMessageEmail: strings.WEAK_PASSWORD, isLoading: !prevState.isLoading }));
         break;
       default:
-        // return "Erro desconhecido.";
-        console.log(code, message)
         Alert.alert(code, message)
         this.setState(prevState => ({ isLoading: !prevState.isLoading }));
         break;
@@ -84,11 +82,9 @@ class SignUp extends Component {
         // firebase.auth()
         //   .createUserWithEmailAndPassword(email, password)
         //   .then(user => {
-        //     console.log(user)
         //     this.setState({ password: '', isLoading: false })
         //   })
         //   .catch(error => {
-        //     console.log(error.code)
         //     this.errorSignUp(error)
         //     this.setState({ password: '', isLoading: false })
         //   })

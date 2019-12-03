@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, RefreshControl } from 'react-native';
 
 import MySearchBar from '../components/MySearchBar';
 import MyFlatList from '../components/MyFlatList';
@@ -7,65 +7,60 @@ import MyFlatList from '../components/MyFlatList';
 import colors from '../config/colors';
 
 import { connect } from 'react-redux';
-import { watchVehicles, processUpload } from '../actions';
+import { watchVehicles } from '../actions';
 
 class Listing extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: '',
-      data: [],
-      vehicles: []
     }
     this.arrayholder = []
     this.navigate = this.props.navigation.navigate;
   }
 
   componentDidMount() {
-    const { watchVehicles } = this.props;
-    watchVehicles();
-    this.props.vehicles && (this.arrayholder = [...this.props.vehicles]);
+    this.props.watchVehicles();
   }
 
-  componentDidUpdate() {
-    const { watchVehicles } = this.props;
-    watchVehicles();
-    this.props.vehicles && (this.arrayholder = [...this.props.vehicles]);
+  setVehicles(){
+    if(!this.state.value){
+      this.arrayholder = [...this.props.vehicles]
+    }
   }
 
   searchFilterFunction = text => {
     this.setState({ value: text })
-    const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.name}${item.status}${item.placa}`.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.includes(textData);
+    const newData = this.props.vehicles.filter(item => {
+      return `${item.type}${item.color}${item.plate}${item.model}`.toUpperCase().includes(text.toUpperCase());
     });
-    if (text) {
-      this.arrayholder = [...newData];
-    } else {
-      this.props.vehicles && (this.arrayholder = [...this.props.vehicles]);
-    }
+    this.arrayholder = [...newData];
   };
 
   render() {
-    let { value } = this.state
+    this.setVehicles();
     return (
       <View style={styles.container}>
         <MyFlatList
           style={styles.containerFlatList}
-          data={this.props.vehicles || []}
+          data={this.arrayholder}
           navigation={this.props.navigation}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.isLoadingVehicles}
+              onRefresh={() => this.props.watchVehicles() }
+            />
+          }
           ListHeaderComponent={
             <MySearchBar
               placeholder="Pesquisar..."
               round
               autoCorrect={false}
-              onChangeText={text => this.searchFilterFunction(text)}
-              value={value}
+              onChangeText={this.searchFilterFunction}
+              value={this.state.value}
               containerStyle={styles.containerStyleMySearchBar}
             />}
         />
-
       </View>
     );
   }
@@ -92,8 +87,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ vehicle }) => {
-  return { vehicles: vehicle['vehicles'] };
+const mapStateToProps = ({ vehicle, images }) => {
+	return { vehicles: vehicle['vehicles'], images: images['images'] };
 }
 
 const mapDispatchToProps = {

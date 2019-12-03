@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
+  Alert,
   FlatList,
   ImageBackground,
   FlatListProps,
@@ -11,44 +11,58 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import colors from '../config/colors';
+import metrics from '../config/metrics';
 
 import { connect } from 'react-redux';
-import { selectPhotoTapped } from '../actions';
+import { selectPhotoTapped, deleteImage, setAllImages } from '../actions';
+import strings from '../config/strings';
 
 type props = FlatListProps;
 
 class MyImagesSlider extends Component<props> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loading: false,
-      itemSelected: {
-        id: '',
-        url: ''
-      }
-    };
   }
 
-  setItemSelected = (itemSelected) => this.setState({ itemSelected })
-
-  removeItem = ({ id }) => {
-    let result = this.props.images.filter(item => item.id !== id)
-    this.setState({ data: result })
+  showAlert = (idImage) => {
+    Alert.alert(
+      strings.DELETE,
+      strings.REMOVE_IMAGE,
+      [
+        {
+          text: strings.CANCEL,
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => this.removeImage(idImage) },
+      ],
+      { cancelable: false },
+    )
   }
 
-  renderItem = (item) => {
+  componentDidMount() {
+    if (this.props.isEdit) {
+      this.props.setAllImages(this.props.vehicle['images']);
+      this.props.images = this.props.vehicle['images'];
+    } else {
+      this.props.setAllImages();
+    }
+  }
+
+  removeImage(idImage) {
+    this.props.deleteImage(this.props.vehicle['id'], idImage);
+  }
+
+  renderItem(item) {
     return (
-      <View key={item.id} style={styles.itemImagesSlider}>
+      <View key={item['id']} style={styles.itemImagesSlider}>
         <View style={styles.containerItemImageSlider}>
           <ImageBackground
-            resizeMode={'cover'}
+            resizeMode={'stretch'}
             style={styles.image}
-            source={{ uri: item.url }}>
+            source={{ cache: 'only-if-cached', uri: item['url'] }}>
             <TouchableOpacity
               style={styles.deleteItemImageSlider}
-              onPress={() => this.removeItem(item)}
-            >
+              onPress={() => this.showAlert(item['id'])}>
               <Icon name='trash' size={25} color={styles.deleteItemImageSlider.borderColor} />
             </TouchableOpacity>
           </ImageBackground>
@@ -58,27 +72,20 @@ class MyImagesSlider extends Component<props> {
   }
 
   render() {
-    let { isVisible, itemSelected, data } = this.state;
-    const { selectPhotoTapped } = this.props
+    let images = this.props.images.filter( item => !!item);
     return (
       <View>
         <View style={styles.containerImagesSlider}>
           <FlatList
-            data={data}
+            data={images}
             horizontal
             renderItem={({ item }) => this.renderItem(item)}
-            keyExtractor={({ id }) => id} />
+            keyExtractor={({ id }) => `${id}`} />
         </View>
         <TouchableOpacity
           style={styles.cameraImageSlider}
           onPress={() =>
-            // selectPhotoTapped(foto => {
-            //   console.log('MyImageSlider:selectPhotoTapped', foto);
-            //   this.setState({ data: [...this.state.data, foto] });
-            //   data && console.log('index', parseInt(data.length / 2))
-            //   console.log('length', data.length)
-            // })
-            selectPhotoTapped()
+            this.props.selectPhotoTapped(this.props.vehicle['id'])
           }>
           <Icon name='camera' size={35} color={styles.cameraImageSlider.borderColor} />
         </TouchableOpacity>
@@ -90,7 +97,7 @@ class MyImagesSlider extends Component<props> {
 
 const styles = StyleSheet.create({
   containerImagesSlider: {
-    height: '75%',
+    height: '70%',
     borderWidth: 2.5,
     borderColor: colors.SILVER,
     backgroundColor: colors.DEFAULT,
@@ -98,17 +105,24 @@ const styles = StyleSheet.create({
   },
 
   itemImagesSlider: {
-    height: '35%',
-    width: '30%',
     marginHorizontal: 10,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: 'transparent',
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   containerItemImageSlider: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+
+  image: {
+    width: metrics.DEVICE_WIDTH * .2,
+    height: metrics.DEVICE_WIDTH * .2,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   deleteItemImageSlider: {
@@ -132,13 +146,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ image }) => {
-  console.log('images', image)
-  return { images: image['images']};
+const mapStateToProps = ({ vehicle, images }) => {
+  return { ...vehicle, ...images, vehicle: vehicle['vehicle'], images: images['images'] };
 }
 
 const mapDispatchToProps = {
-  selectPhotoTapped
+  selectPhotoTapped,
+  deleteImage,
+  setAllImages
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyImagesSlider);

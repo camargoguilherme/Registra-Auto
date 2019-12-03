@@ -18,7 +18,7 @@ import time from '../util/time';
 import { translate } from '../locales';
 
 const dataType = [
-	{ label: translate('REGISTER') },
+	{ label: translate('SELECT') },
 	{ label: 'Carro', value: 'carro' },
 	{ label: 'Moto', value: 'moto' },
 	{ label: 'Pickup', value: 'pickup' },
@@ -26,7 +26,7 @@ const dataType = [
 ]
 
 const dataColor = [
-	{ label: 'SELECIONE' },
+	{ label: translate('SELECT') },
 	{ label: translate('BLUE'), value: 'azul', hex: '#0000FF' },
 	{ label: translate('GREEN'), value: 'verde', hex: '#00FF00' },
 	{ label: translate('RED'), value: 'vermelho', hex: '#FF0000' },
@@ -34,68 +34,134 @@ const dataColor = [
 ]
 
 import { connect } from 'react-redux';
-import { setField, saveVehicle, setAllFields, resetForm, selectPhotoTapped } from '../actions';
+import {
+	setField,
+	setAllFields,
+	saveVehicle,
+	resetForm,
+	selectPhotoTapped,
+	uploadImages,
+	setImage,
+	setAllImages,
+	resetImages
+} from '../actions';
 
 class Details extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			time: null,
-			isEdit: false,
-			errorMessagePlate: '',
-			errorMessagePassword: '',
 			isLoading: false,
+			errorMessagePlate: '',
+			errorMessageModel: '',
+			errorMessageType: '',
+			errorMessageColor: '',
+			errorMessagePhotos: '',
 		}
 		this.time = time;
 	}
 
-
-
 	componentDidMount() {
-		const { navigation, setAllFields, resetForm } = this.props;
-		const { params } = navigation.state;
+		const { params } = this.props.navigation.state;
 
 		this.dateEntry = setInterval(() => {
 			this.setState({ time: this.time.dateHourToString() })
-			if (!this.state.isEdit) {
-				this.props.setField('entryDate', time.dateHourToString());
-				this.props.setField('id', time.dateNow());
-			}
 		}, 1000);
 
-		if (params && params['editItem']) {
-			setAllFields(params.editItem)
-			this.setState({ isEdit: true })
+		if (params && params['vehicle']) {
 			clearInterval(this.dateEntry);
+			this.props.setAllFields(params['vehicle']);
+			this.props.setAllImages(params['vehicle']['images'])
 		} else {
-			resetForm();
+			this.props.resetForm();
+			this.props.resetImages();
+			this.props.setField('id', time.dateNow());
 		}
 
+		this.messages();
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.dateEntry);
 	}
 
-	handleSave = () => {
-		this.setState({ isLoading: true })
-		const { saveVehicle, vehicle, navigation } = this.props;
+	messages = () => {
+		const { plate, model, type, color } = this.props.vehicle;
+		let messages = '';
+		if (!plate) {
+			this.setState({ errorMessagePlate: strings.PLATE_MESSAGE });
+			messages += `${strings.PLATE_MESSAGE}\n`;
+		} else {
+			this.setState({ errorMessagePlate: '' });
+		}
+		if (!model) {
+			this.setState({ errorMessageModel: strings.MODEL_MESSAGE });
+			messages += `${strings.MODEL_MESSAGE}\n`;
+		} else {
+			this.setState({ errorMessageModel: '' });
+		}
+		if (!type) {
+			this.setState({ errorMessageType: strings.TYPE_MESSAGE });
+			messages += `${strings.TYPE_MESSAGE}\n`;
+		} else {
+			this.setState({ errorMessageType: '' })
+		}
+		if (!color) {
+			this.setState({ errorMessageColor: strings.COLOR_MESSAGE });
+			messages += `${strings.COLOR_MESSAGE}\n`;
+		} else {
+			this.setState({ errorMessageColor: '' });
+		}
+		if (!this.props.images.length) {
+			this.setState({ errorMessagePhotos: strings.PHOTO_MESSAGE });
+			messages += `${strings.PHOTO_MESSAGE}`;
+		} else {
+			this.setState({ errorMessagePhotos: '' });
+		}
+		return messages;
+	}
 
-		saveVehicle(vehicle).then(() => {
+	componentWillUnmount() {
+		clearInterval(this.dateEntry);
+	}
+
+	handleSave = async () => {
+		this.setState({ isLoading: true })
+		this.messages();
+		let imagesUploaded = [];
+
+
+		// Condição para saber se o veiculo pode ser gravado no banco
+		if (!this.messages()) {
+			if (Array.isArray(this.props.images) && this.props.images.length)
+				imagesUploaded = await this.props.uploadImages(this.props.vehicle['id'], this.props.images);
+			console.log('imagesUploaded', imagesUploaded)
+			let timeVehicle = this.props.isEdit ? this.props.vehicle['entryDate'] : this.state.time;
+
+			this.props.setAllImages(imagesUploaded);
+
+			this.props.setField('entryDate', timeVehicle);
+			this.props.vehicle['entryDate'] = timeVehicle;
+
+			this.props.setField('images', imagesUploaded);
+			this.props.vehicle['images'] = [...imagesUploaded];
+
+			this.props.saveVehicle(this.props.vehicle).then(() => {
+				this.props.navigation && this.props.navigation.pop();
+				this.props.resetForm();
+				this.props.resetImages();
+			}).catch((error) => {
+				Alert.alert('Erro ao salvar', error);
+			});
 			this.setState({ isLoading: false });
-			navigation.pop();
-		}).catch((error) => {
-			Alert.alert('Erro', error.message);
-		})
+		} else {
+			this.setState({ isLoading: false })
+			Alert.alert(strings.TITLE_ERRO_DETAIL_MESSAGE, this.messages())
+		}
+
 	}
 
 	render() {
-		let { isLoading, isEdit } = this.state;
-		const { setField, vehicle } = this.props
-		if (isEdit) {
-			console.log(this.state);
-			// 	alert(JSON.stringify(this.state))
-		}
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.BACKGROUND }}>
 				<View style={[styles.formDetails, styles.form, { flexDirection: 'column' }]}>
@@ -110,16 +176,16 @@ class Details extends Component {
 							errorMessage={this.state.errorMessageEmail}
 							autoCapitalize='characters'
 							icon={{ name: 'envelope', size: 24, color: 'gray' }}
-							onChangeText={itemValue => setField('plate', itemValue)}
-							value={vehicle.plate} />
+							onChangeText={itemValue => this.props.setField('plate', itemValue)}
+							value={this.props.vehicle['plate']} />
 						<MyInput
 							style={styles.propsStyle}
 							label={strings.MODEL_LABEL}
 							placeholder={strings.MODEL_PLACEHOLDER}
 							errorMessage={this.state.errorMessageEmail}
 							icon={{ name: 'envelope', size: 24, color: 'gray' }}
-							onChangeText={itemValue => setField('model', itemValue)}
-							value={vehicle.model}
+							onChangeText={itemValue => this.props.setField('model', itemValue)}
+							value={this.props.vehicle['model']}
 						/>
 
 						<MyPicker
@@ -128,8 +194,8 @@ class Details extends Component {
 							label={strings.TYPE_LABEL}
 							data={dataType}
 							mode='dialog'
-							selectedValue={vehicle.type}
-							onValueChange={(itemValue, itemPosition) => setField('type', itemValue)}
+							selectedValue={this.props.vehicle['type']}
+							onValueChange={(itemValue) => this.props.setField('type', itemValue)}
 						/>
 
 						<MyPicker
@@ -138,10 +204,8 @@ class Details extends Component {
 							label={strings.COLOR_LABEL}
 							data={dataColor}
 							mode='dialog'
-							selectedValue={vehicle.color}
-							onValueChange={(itemValue, itemPosition) => {
-								setField('color', itemValue);
-							}}
+							selectedValue={this.props.vehicle['color']}
+							onValueChange={(itemValue) => this.props.setField('color', itemValue)}
 						/>
 						<MyInput
 							style={{ width: '100%' }}
@@ -149,17 +213,18 @@ class Details extends Component {
 							inputContainerStyle={{ marginHorizontal: 0, paddingHorizontal: 0 }}
 							label={strings.DATE_TIME}
 							editable={false}
-							value={this.state.isEdit ? vehicle.entryDate : this.state.time}
+							value={this.props.isEdit ?
+								this.props.vehicle['entryDate'] :
+								this.state.time}
 							inputStyle={{ textAlign: 'center' }}
-							errorMessage={this.state.errorMessageEmail}
 							icon={{ name: 'envelope', size: 24, color: 'gray' }} />
 					</View>
 				</View>
 				<View style={[styles.buttonContainer, { flexDirection: 'row' }]}>
 					<MyButton
 						title={strings.SAVE}
-						loading={isLoading}
-						disabled={isLoading}
+						loading={this.state.isLoading}
+						disabled={this.state.isLoading}
 						disabledStyle={{ backgroundColor: colors.SUCCESS }}
 						containerStyle={styles.button}
 						buttonStyle={{ backgroundColor: colors.SUCCESS }}
@@ -208,8 +273,8 @@ const styles = StyleSheet.create({
 
 });
 
-const mapStateToProps = ({ vehicle }) => {
-  return { vehicle: vehicle['vehicle'] };
+const mapStateToProps = ({ vehicle, images }) => {
+	return { ...vehicle, vehicle: vehicle['vehicle'], images: images['images'] };
 }
 
 const mapDispatchToProps = {
@@ -217,7 +282,10 @@ const mapDispatchToProps = {
 	saveVehicle,
 	setAllFields,
 	resetForm,
-	selectPhotoTapped
+	selectPhotoTapped,
+	uploadImages,
+	setAllImages,
+	resetImages
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Details);

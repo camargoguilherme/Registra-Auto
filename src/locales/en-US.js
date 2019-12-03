@@ -28,12 +28,22 @@ export default string = {
   LICENSE_PLATE_PLACEHOLDER: 'Plate',
   MODEL_PLACEHOLDER: 'Model',
 
+  OPTIONS_ITEM_MESSAGE: 'Select one of the options',
   USERNAME_MESSAGE: 'Enter a username',
   EMAIL_MESSAGE: 'Enter an email',
   PASSWORD_MESSAGE: 'Enter a password',
   CONFIRMPASSWORD_MESSAGE: 'Confirm the Password',
   LICENSE_PLATE_MESSAGE: 'Enter vehicle license plate',
   PASSWORD_NOT_MATCH_MESSAGE: 'Password and confirm password do not match',
+  REMOVE_IMAGE: 'Do you really want to delete the image?',
+
+  PLATE_MESSAGE: 'Uninformed Plate',
+  MODEL_MESSAGE: 'Uninformed Model',
+  TYPE_MESSAGE: 'Select a Type',
+  COLOR_MESSAGE: 'Select a color',
+  PHOTO_MESSAGE: 'Take or select a photo',
+
+  TITLE_ERRO_DETAIL_MESSAGE: 'Unfilled fields',
 
   LISTING: 'Listing',
   REGISTER: 'Register',

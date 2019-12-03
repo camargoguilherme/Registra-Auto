@@ -73,11 +73,9 @@ export default class Login extends Component {
       firebase.auth()
         .sendPasswordResetEmail(email)
         .then(user => {
-          console.log(user);
           this.navigate("LogIn")
         })
         .catch(error => {
-          console.log(error.code)
           this.errorLogin(error)
           this.setState({ email: '', loading: false })
         })

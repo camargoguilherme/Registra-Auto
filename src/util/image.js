@@ -24,7 +24,6 @@ class Image {
 
     ImagePicker.showImagePicker(options, (result) => {
       if (!result.didCancel) {
-        // console.log('showImagePicker', result)
         this.uploadImage(result)
       }
     });
@@ -32,7 +31,6 @@ class Image {
 
   uploadImage = async (data) => {
     let url = await this.takeSnapshot(data.data)
-    //console.log('result', result)
     return { id: `${Date.now()}`, url: url }
   }
 
@@ -101,7 +99,6 @@ class Image {
     }
 
     let pathFile = (constants.IS_ANDROID ? 'file://' : '') + `${path}/${time.dateHourPhotoToString()}.jpeg`;
-    console.log('pathFile', pathFile)
     try {
       await RNFS.writeFile(pathFile, base64, 'base64');
       return pathFile

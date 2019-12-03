@@ -12,7 +12,6 @@ const store = createStore(rootReducer, composeWithDevTools(
   applyMiddleware(reduxThunk)
 ));
 
-
 console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
 
 export default class App extends Component {
@@ -29,12 +28,9 @@ export default class App extends Component {
   }
 
   render() {
-    const { signLoaded } = this.state;
-    if (!signLoaded) {
+    if (!this.state.signLoaded) {
       return null;
     }
-
-    //const Layout = AppSwitchNavigator(signed);
     return (
       <Provider store={store}>
         <Routes />

@@ -28,12 +28,22 @@ export default string = {
   LICENSE_PLATE_PLACEHOLDER: 'Placa do veículo',
   MODEL_PLACEHOLDER: 'Modelo do veículo',
 
+  OPTIONS_ITEM_MESSAGE: 'Selecione uma das opções',
   USERNAME_MESSAGE: 'Informe um nome de usuário',
   EMAIL_MESSAGE: 'Informe um email',
   PASSWORD_MESSAGE: 'Informe uma senha',
   CONFIRMPASSWORD_MESSAGE: 'Confirme à senha',
   LICENSE_PLATE_MESSAGE: 'Informe a placa do veículo',
   PASSWORD_NOT_MATCH_MESSAGE: 'Senhas não coincidem',
+  REMOVE_IMAGE: 'Deseja mesmo deletar a imagem?',
+
+  PLATE_MESSAGE: 'Placa não informada',
+  MODEL_MESSAGE: 'Modelo não informado',
+  TYPE_MESSAGE: 'Selecione um Tipo',
+  COLOR_MESSAGE: 'Selecione uma cor',
+  PHOTO_MESSAGE: 'Tire ou selecione uma foto',
+
+  TITLE_ERRO_DETAIL_MESSAGE: 'Campos não preenchidos',
 
   LISTING: 'Listagem',
   REGISTER: 'Cadastrar',
